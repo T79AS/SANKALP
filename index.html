@@ -242,6 +242,8 @@
   .day-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
 
   footer.foot{text-align:center;color:var(--text-faint);font-size:11px;padding:30px 0 0;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;}
+  .foot-credit{margin-top:8px;font-size:10.5px;color:var(--text-faint);letter-spacing:0.06em;}
+  .foot-credit span{color:var(--brass-dim);}
 
   /* ===== Profile chip (header) ===== */
   .profile-chip{
@@ -295,7 +297,7 @@
   }
   .profile-name{font-family:'Oswald',sans-serif;font-size:19px;letter-spacing:0.03em;}
   .profile-email{font-size:12px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;margin-top:2px;word-break:break-all;}
-  .profile-stats{display:flex;justify-content:center;gap:18px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border-dim);}
+  .profile-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border-dim);}
   .profile-stat b{display:block;font-family:'Oswald',sans-serif;font-size:20px;color:var(--brass);}
   .profile-stat span{font-size:10.5px;color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;}
   .settings-card{background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:22px;margin-bottom:16px;}
@@ -318,6 +320,26 @@
   .plan-badge.a b{color:var(--brass);}
   .plan-badge.b b{color:var(--olive-light);}
   .plan-badge.c b{color:var(--text-dim);}
+
+  /* ===== Fitness ===== */
+  .fitness-top{display:grid;grid-template-columns:260px 1fr;gap:24px;margin-bottom:20px;}
+  @media(max-width:760px){.fitness-top{grid-template-columns:1fr;}}
+  .pie-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);
+    padding:20px;display:flex;flex-direction:column;align-items:center;gap:14px;
+  }
+  .pie-svg{width:200px;height:200px;}
+  .pie-center-pct{font-family:'Oswald',sans-serif;font-size:30px;font-weight:600;fill:var(--brass);}
+  .pie-center-sub{font-family:'JetBrains Mono',monospace;font-size:9px;fill:var(--text-faint);letter-spacing:0.12em;text-transform:uppercase;}
+  .pie-legend{display:flex;flex-direction:column;gap:8px;width:100%;}
+  .pie-legend-row{display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:10px;font-size:12.5px;}
+  .pie-legend-row .swatch{width:10px;height:10px;border-radius:2px;}
+  .pie-legend-row .name{color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pie-legend-row .pct{font-family:'JetBrains Mono',monospace;color:var(--text-faint);font-size:11.5px;}
+  .fitness-summary-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:20px;
+  }
+  .fitness-summary-card .rank{margin-bottom:4px;}
 </style>
 </head>
 <body>
@@ -343,6 +365,7 @@
     <nav class="tabs" id="tabs">
       <button data-view="dashboard" class="active">Dashboard</button>
       <button data-view="syllabus">Syllabus &amp; Tracker</button>
+      <button data-view="fitness">Fitness</button>
       <button data-view="planner">Day-wise Planner</button>
       <button data-view="profile">Profile</button>
     </nav>
@@ -354,10 +377,14 @@
     <section class="view" id="view-auth"></section>
     <section class="view active" id="view-dashboard"></section>
     <section class="view" id="view-syllabus"></section>
+    <section class="view" id="view-fitness"></section>
     <section class="view" id="view-planner"></section>
     <section class="view" id="view-profile"></section>
   </main>
-  <footer class="foot">DISCIPLINE · CONSISTENCY · SANKALP</footer>
+  <footer class="foot">
+    DISCIPLINE · CONSISTENCY · SANKALP
+    <div class="foot-credit">© <span id="footYear"></span> Sankalp. Web made by KARTIK.X.7</div>
+  </footer>
 </div>
 
 <script>
@@ -401,28 +428,40 @@ function seedUserData(){
       {id:uid(), name:'Static GK', done:false},
       {id:uid(), name:'Ranks, Ops & Awards', done:false},
     ]},
-    { id: uid(), name:'Physical Fitness', topics: [
-      {id:uid(), name:'Running (1.6km/2.4km)', done:true},
-      {id:uid(), name:'Push-ups & Sit-ups', done:false},
-      {id:uid(), name:'Pull-ups', done:false},
+  ];
+
+  const fitness = [
+    { id: uid(), name:'Cardio & Endurance', topics: [
+      {id:uid(), name:'1.6km Run (under 6:30)', done:true},
+      {id:uid(), name:'2.4km Run (under 10:30)', done:false},
+      {id:uid(), name:'Skipping — 10 min', done:false},
+    ]},
+    { id: uid(), name:'Strength', topics: [
+      {id:uid(), name:'Push-ups (3x20)', done:true},
+      {id:uid(), name:'Sit-ups (3x20)', done:false},
+      {id:uid(), name:'Pull-ups (3x8)', done:false},
+      {id:uid(), name:'Squats (3x25)', done:false},
+    ]},
+    { id: uid(), name:'Mobility & Extras', topics: [
+      {id:uid(), name:'Swimming — 500m', done:false},
+      {id:uid(), name:'Rope climbing', done:false},
+      {id:uid(), name:'Stretching & recovery', done:true},
     ]},
   ];
 
   const s = subjects;
   const days = [
     { id: uid(), date: todayISO(), slots:[
-      {id:uid(), time:'05:30', subjectId:s[6].id, topicId:s[6].topics[0].id, duration:60, note:'Field run', done:true},
       {id:uid(), time:'07:00', subjectId:s[0].id, topicId:s[0].topics[0].id, duration:90, note:'', done:true},
       {id:uid(), time:'17:00', subjectId:s[3].id, topicId:s[3].topics[0].id, duration:45, note:'Newspaper + notes', done:false},
     ]},
     { id: uid(), date: addDaysISO(todayISO(),1), slots:[
-      {id:uid(), time:'05:30', subjectId:s[6].id, topicId:s[6].topics[1].id, duration:45, note:'', done:false},
       {id:uid(), time:'07:00', subjectId:s[1].id, topicId:s[1].topics[0].id, duration:90, note:'', done:false},
       {id:uid(), time:'18:00', subjectId:s[4].id, topicId:s[4].topics[0].id, duration:60, note:'', done:false},
     ]},
   ];
 
-  return { subjects, days, ui:{ openSubjects:{}, addingTopicFor:null } };
+  return { subjects, fitness, days, ui:{ openSubjects:{}, openFitness:{}, addingTopicFor:null } };
 }
 
 /* ============================= ACCOUNTS / AUTH ============================= */
@@ -478,6 +517,59 @@ function rankFor(pct){
   return {name:'Recruit', stripes:1};
 }
 function timeToMinutes(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
+
+/* ---- fitness helpers ---- */
+function fitColor(idx){ return PALETTE[(idx+3) % PALETTE.length]; }
+function getFitCat(id){ return cu().fitness.find(c=>c.id===id); }
+function fitnessOverallProgress(){
+  let total=0, done=0;
+  cu().fitness.forEach(c=>{ total+=c.topics.length; done+=c.topics.filter(t=>t.done).length; });
+  return total ? Math.round(done/total*100) : 0;
+}
+
+/* ---- generic donut/pie chart builder (SVG) ---- */
+function polarToCartesian(cx, cy, r, angleDeg){
+  const rad = (angleDeg-90) * Math.PI/180;
+  return { x: cx + r*Math.cos(rad), y: cy + r*Math.sin(rad) };
+}
+function describeDonutSlice(cx, cy, rOuter, rInner, startAngle, endAngle){
+  const largeArc = (endAngle-startAngle) > 180 ? 1 : 0;
+  const p0 = polarToCartesian(cx, cy, rOuter, startAngle);
+  const p1 = polarToCartesian(cx, cy, rOuter, endAngle);
+  const p2 = polarToCartesian(cx, cy, rInner, endAngle);
+  const p3 = polarToCartesian(cx, cy, rInner, startAngle);
+  return `M ${p0.x} ${p0.y} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${p1.x} ${p1.y} L ${p2.x} ${p2.y} A ${rInner} ${rInner} 0 ${largeArc} 0 ${p3.x} ${p3.y} Z`;
+}
+/**
+ * categories: [{name, count, done, color}]
+ * Slice angle is proportional to `count` (composition of the whole);
+ * slice opacity reflects that category's own completion (done/count).
+ */
+function buildPieChart(categories, centerLabel, centerSub){
+  const size = 220, cx = size/2, cy = size/2, rOuter = 100, rInner = 62;
+  const total = categories.reduce((a,c)=>a+c.count, 0);
+  let angle = 0;
+  let slices = '';
+  if(total === 0){
+    slices = `<circle cx="${cx}" cy="${cy}" r="${(rOuter+rInner)/2}" fill="none" stroke="var(--border-dim)" stroke-width="${rOuter-rInner}"/>`;
+  } else {
+    categories.forEach(c=>{
+      if(c.count===0) return;
+      const sweep = (c.count/total)*360;
+      const start = angle, end = angle + sweep - (sweep<360?1.5:0); // small gap between slices
+      const opacity = 0.35 + 0.65 * (c.count ? c.done/c.count : 0);
+      slices += `<path d="${describeDonutSlice(cx,cy,rOuter,rInner,start,Math.max(end,start+0.5))}" fill="${c.color}" fill-opacity="${opacity.toFixed(2)}"></path>`;
+      angle += sweep;
+    });
+  }
+  return `
+    <svg viewBox="0 0 ${size} ${size}" class="pie-svg">
+      ${slices}
+      <text x="${cx}" y="${cy-6}" text-anchor="middle" class="pie-center-pct">${centerLabel}</text>
+      <text x="${cx}" y="${cy+16}" text-anchor="middle" class="pie-center-sub">${centerSub}</text>
+    </svg>
+  `;
+}
 
 /* ---- date helpers (system date driven) ---- */
 function todayISO(){
@@ -629,6 +721,82 @@ function renderSyllabus(){
   `;
 }
 
+/* ============================= RENDER: FITNESS ============================= */
+function renderFitness(){
+  const cats = cu().fitness;
+  const pieCats = cats.map((c,i)=>({
+    name: c.name, count: c.topics.length, done: c.topics.filter(t=>t.done).length, color: fitColor(i)
+  }));
+  const overallPct = fitnessOverallProgress();
+  const pieHtml = buildPieChart(pieCats, overallPct+'%', 'FIT READY');
+  const legendHtml = pieCats.map(c=>{
+    const pct = c.count ? Math.round(c.done/c.count*100) : 0;
+    return `<div class="pie-legend-row">
+      <div class="swatch" style="background:${c.color}"></div>
+      <div class="name">${escapeHtml(c.name)}</div>
+      <div class="pct">${c.done}/${c.count} · ${pct}%</div>
+    </div>`;
+  }).join('') || '<div class="empty">No categories yet.</div>';
+
+  const cardsHtml = cats.map((c,i)=>{
+    const open = !!cu().ui.openFitness[c.id];
+    const p = subjectProgress(c);
+    const exHtml = c.topics.map(t=>`
+      <div class="topic-row">
+        <input type="checkbox" data-action="toggle-fitex" data-cat="${c.id}" data-ex="${t.id}" ${t.done?'checked':''}>
+        <div class="topic-name ${t.done?'done':''}">${escapeHtml(t.name)}</div>
+        <button class="icon-btn" data-action="remove-fitex" data-cat="${c.id}" data-ex="${t.id}" title="Remove exercise">×</button>
+      </div>
+    `).join('') || '<div class="empty">No exercises yet — add the first one below.</div>';
+
+    return `
+      <div class="subj-card ${open?'open':''}">
+        <div class="subj-head" data-action="toggle-fitcat" data-cat="${c.id}">
+          <span class="subj-caret">▶</span>
+          <div class="subj-swatch" style="background:${fitColor(i)}"></div>
+          <div class="subj-name">${escapeHtml(c.name)}</div>
+          <div class="subj-progress-bar"><div class="subj-progress-fill" style="width:${p}%;background:${fitColor(i)}"></div></div>
+          <div class="subj-meta">${c.topics.filter(t=>t.done).length}/${c.topics.length}</div>
+          <button class="icon-btn" data-action="remove-fitcat" data-cat="${c.id}" title="Remove category" onclick="event.stopPropagation()">×</button>
+        </div>
+        <div class="subj-body">
+          ${exHtml}
+          <div class="add-topic-row">
+            <input type="text" placeholder="Add an exercise (e.g. Rope climbing)" data-add-fitex-input="${c.id}">
+            <button class="btn small" data-action="add-fitex" data-cat="${c.id}">Add exercise</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('view-fitness').innerHTML = `
+    <div class="subj-toolbar">
+      <h2 class="section-title" style="margin:0;">Physical fitness tracker — tracked separately from academic syllabus</h2>
+    </div>
+    <div class="fitness-top">
+      <div class="pie-card">
+        ${pieHtml}
+        <div class="pie-legend">${legendHtml}</div>
+      </div>
+      <div class="fitness-summary-card">
+        <h2 class="section-title">Why fitness is separate</h2>
+        <p style="font-size:13px;color:var(--text-dim);line-height:1.6;">
+          Physical fitness for a defence exam is scored and trained differently from written subjects, so it gets its
+          own tracker and its own pie chart here instead of being averaged into your academic readiness dial.
+          Each slice of the chart is sized by how many exercises are in that category, and its brightness shows how
+          much of that category you've completed — a fuller, brighter slice means you're closer to done.
+        </p>
+      </div>
+    </div>
+    <div class="new-subject-form">
+      <input type="text" id="newFitCategoryInput" placeholder="New fitness category (e.g. Agility Drills)">
+      <button class="btn primary" id="btnAddFitCategory">Add category</button>
+    </div>
+    <div class="subj-grid">${cardsHtml || '<div class="empty">No fitness categories yet.</div>'}</div>
+  `;
+}
+
 /* ============================= RENDER: PLANNER ============================= */
 function subjectOptions(selectedId){
   return cu().subjects.map(s=>`<option value="${s.id}" ${s.id===selectedId?'selected':''}>${escapeHtml(s.name)}</option>`).join('');
@@ -704,6 +872,7 @@ function renderPlanner(){
 function renderAll(){
   renderDashboard();
   renderSyllabus();
+  renderFitness();
   renderPlanner();
   renderProfileChip();
   if(cu()) renderProfile();
@@ -737,6 +906,7 @@ function renderProfile(){
         </div>
         <div class="profile-stats">
           <div class="profile-stat"><b>${pct}%</b><span>Readiness</span></div>
+          <div class="profile-stat"><b>${fitnessOverallProgress()}%</b><span>Fitness</span></div>
           <div class="profile-stat"><b>${u.subjects.length}</b><span>Subjects</span></div>
           <div class="profile-stat"><b>${u.days.length}</b><span>Days planned</span></div>
         </div>
@@ -877,6 +1047,7 @@ function renderShell(){
   }
 }
 renderShell();
+document.getElementById('footYear').textContent = new Date().getFullYear();
 
 /* ============================= AUTH EVENTS ============================= */
 document.getElementById('view-auth').addEventListener('click', e=>{
@@ -1098,6 +1269,86 @@ document.getElementById('view-syllabus').addEventListener('keydown', e=>{
   }
 });
 
+/* ============================= FITNESS EVENTS ============================= */
+document.getElementById('view-fitness').addEventListener('click', e=>{
+  const head = e.target.closest('[data-action="toggle-fitcat"]');
+  if(head){
+    const id = head.dataset.cat;
+    cu().ui.openFitness[id] = !cu().ui.openFitness[id];
+    renderFitness();
+    return;
+  }
+  const rmCat = e.target.closest('[data-action="remove-fitcat"]');
+  if(rmCat){
+    const id = rmCat.dataset.cat;
+    const cat = getFitCat(id);
+    if(confirm(`Remove fitness category "${cat?cat.name:''}" and all its exercises?`)){
+      cu().fitness = cu().fitness.filter(c=>c.id!==id);
+      renderAll();
+    }
+    return;
+  }
+  const rmEx = e.target.closest('[data-action="remove-fitex"]');
+  if(rmEx){
+    const cat = getFitCat(rmEx.dataset.cat);
+    if(cat){
+      cat.topics = cat.topics.filter(t=>t.id!==rmEx.dataset.ex);
+      renderAll();
+    }
+    return;
+  }
+  const addEx = e.target.closest('[data-action="add-fitex"]');
+  if(addEx){
+    const cat = getFitCat(addEx.dataset.cat);
+    const input = document.querySelector(`[data-add-fitex-input="${addEx.dataset.cat}"]`);
+    const val = input.value.trim();
+    if(val && cat){
+      cat.topics.push({id:uid(), name:val, done:false});
+      cu().ui.openFitness[cat.id] = true;
+      renderAll();
+    }
+    return;
+  }
+  if(e.target.id==='btnAddFitCategory'){
+    const input = document.getElementById('newFitCategoryInput');
+    const val = input.value.trim();
+    if(val){
+      const c = {id:uid(), name:val, topics:[]};
+      cu().fitness.push(c);
+      cu().ui.openFitness[c.id] = true;
+      renderAll();
+    }
+  }
+});
+
+document.getElementById('view-fitness').addEventListener('change', e=>{
+  const cb = e.target.closest('[data-action="toggle-fitex"]');
+  if(cb){
+    const cat = getFitCat(cb.dataset.cat);
+    const ex = cat ? cat.topics.find(t=>t.id===cb.dataset.ex) : null;
+    if(ex){ ex.done = cb.checked; renderAll(); }
+  }
+});
+
+document.getElementById('view-fitness').addEventListener('keydown', e=>{
+  if(e.key==='Enter' && e.target.matches('[data-add-fitex-input]')){
+    e.preventDefault();
+    const catId = e.target.getAttribute('data-add-fitex-input');
+    const val = e.target.value.trim();
+    const cat = getFitCat(catId);
+    if(val && cat){
+      cat.topics.push({id:uid(), name:val, done:false});
+      cu().ui.openFitness[cat.id] = true;
+      renderAll();
+    }
+    return;
+  }
+  if(e.key==='Enter' && e.target.id==='newFitCategoryInput'){
+    e.preventDefault();
+    document.getElementById('btnAddFitCategory').click();
+  }
+});
+
 /* ============================= PLANNER EVENTS ============================= */
 document.getElementById('view-planner').addEventListener('click', e=>{
   if(e.target.id==='btnAddDay'){
@@ -1171,7 +1422,7 @@ document.getElementById('btnExport').addEventListener('click', ()=>{
   if(!u) return;
   const data = JSON.stringify({
     name: u.name, plans: u.plans,
-    subjects: u.subjects, days: u.days
+    subjects: u.subjects, fitness: u.fitness, days: u.days
   }, null, 2);
   const blob = new Blob([data], {type:'application/json'});
   const url = URL.createObjectURL(blob);
@@ -1193,7 +1444,8 @@ document.getElementById('fileImport').addEventListener('change', e=>{
       if(parsed.subjects && parsed.days){
         u.subjects = parsed.subjects;
         u.days = parsed.days;
-        u.ui = {openSubjects:{}, addingTopicFor:null};
+        u.fitness = parsed.fitness || seedUserData().fitness;
+        u.ui = {openSubjects:{}, openFitness:{}, addingTopicFor:null};
         renderAll();
         alert('Data imported successfully.');
       } else {
@@ -1210,9 +1462,10 @@ document.getElementById('fileImport').addEventListener('change', e=>{
 document.getElementById('btnReset').addEventListener('click', ()=>{
   const u = cu();
   if(!u) return;
-  if(confirm('Reset to the default demo plan? This clears your current syllabus and day plan (your account stays logged in).')){
+  if(confirm('Reset to the default demo plan? This clears your current syllabus, fitness tracker and day plan (your account stays logged in).')){
     const fresh = seedUserData();
     u.subjects = fresh.subjects;
+    u.fitness = fresh.fitness;
     u.days = fresh.days;
     u.ui = fresh.ui;
     renderAll();
