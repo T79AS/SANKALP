@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SANKALP — Mission Prep Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121613;
+    --bg-2:#0d100e;
+    --panel:#1a211c;
+    --panel-2:#212b23;
+    --border:#33402f;
+    --border-dim:#293327;
+    --olive:#4b5d3a;
+    --olive-light:#6e8b3d;
+    --brass:#c9a227;
+    --brass-dim:#8a7220;
+    --text:#e9e6dd;
+    --text-dim:#9aa093;
+    --text-faint:#666e60;
+    --red:#b5453b;
+    --red-dim:#7a352e;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 1200px 600px at 50% -10%, rgba(75,93,58,0.18), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--brass);color:#12160f;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.04em;}
+
+  /* ===== Layout ===== */
+  .shell{max-width:1180px;margin:0 auto;padding:0 20px 80px;}
+  header.top{
+    border-bottom:1px solid var(--border-dim);
+    padding:22px 20px 0;
+    margin-bottom:0;
+  }
+  .top-inner{max-width:1180px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:16px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:38px;height:38px;border:2px solid var(--brass);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;position:relative;flex:none;
+  }
+  .brand-mark::before{content:'';position:absolute;width:6px;height:6px;background:var(--brass);border-radius:50%;}
+  .brand-mark::after{
+    content:'';position:absolute;inset:6px;border:1px solid var(--brass-dim);border-radius:50%;
+  }
+  .brand-text .kicker{font-size:10px;letter-spacing:0.28em;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
+  .brand-text h1{font-size:26px;margin:0;font-weight:600;letter-spacing:0.06em;}
+  .brand-text h1 span{color:var(--brass);}
+
+  .io-buttons{display:flex;gap:8px;}
+  .io-buttons input[type=file]{display:none;}
+
+  nav.tabs{display:flex;gap:2px;margin-top:18px;border-top:1px solid var(--border-dim);}
+  nav.tabs button{
+    flex:none;background:none;border:none;color:var(--text-dim);
+    font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.08em;
+    font-size:13px;padding:12px 18px;cursor:pointer;position:relative;top:-1px;
+    border-top:2px solid transparent;transition:color .15s;
+  }
+  nav.tabs button:hover{color:var(--text);}
+  nav.tabs button.active{color:var(--brass);border-top-color:var(--brass);}
+
+  main{padding-top:28px;}
+  .view{display:none;}
+  .view.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  h2.section-title{
+    font-size:14px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.18em;margin:0 0 14px;text-transform:uppercase;
+  }
+
+  /* ===== buttons ===== */
+  .btn{
+    font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--text);
+    background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius);
+    padding:8px 14px;cursor:pointer;transition:all .12s;
+  }
+  .btn:hover{border-color:var(--brass-dim);color:var(--brass);}
+  .btn.primary{background:var(--brass);border-color:var(--brass);color:#161a12;}
+  .btn.primary:hover{background:#dab438;color:#161a12;}
+  .btn.ghost{background:none;border-color:transparent;color:var(--text-dim);}
+  .btn.ghost:hover{color:var(--brass);border-color:transparent;background:none;}
+  .btn.danger{color:var(--red);border-color:var(--red-dim);}
+  .btn.danger:hover{border-color:var(--red);color:#fff;background:var(--red-dim);}
+  .btn.small{padding:5px 10px;font-size:12px;}
+  .icon-btn{
+    background:none;border:1px solid var(--border);color:var(--text-dim);
+    width:28px;height:28px;border-radius:var(--radius);cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;font-size:15px;line-height:1;
+  }
+  .icon-btn:hover{color:var(--red);border-color:var(--red-dim);}
+  .icon-btn.check{color:var(--olive-light);}
+  .icon-btn.check:hover{color:var(--brass);border-color:var(--brass-dim);}
+
+  input[type=text], input[type=number], input[type=time], select, textarea{
+    background:var(--bg-2);border:1px solid var(--border);color:var(--text);
+    padding:8px 10px;border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:13px;
+    outline:none;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--brass-dim);}
+  input[type=checkbox]{accent-color:var(--brass);width:16px;height:16px;cursor:pointer;}
+
+  /* ===== Dashboard ===== */
+  .dash-grid{display:grid;grid-template-columns:280px 1fr;gap:24px;}
+  @media(max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+
+  .dial-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);
+    padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;
+  }
+  .dial{
+    width:170px;height:170px;border-radius:50%;position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .dial .hole{
+    width:126px;height:126px;border-radius:50%;background:var(--panel);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    border:1px solid var(--border-dim);
+  }
+  .dial .pct{font-family:'Oswald',sans-serif;font-size:38px;font-weight:600;color:var(--brass);line-height:1;}
+  .dial .lbl{font-size:10px;color:var(--text-faint);letter-spacing:0.15em;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+  .rank{font-family:'Oswald',sans-serif;letter-spacing:0.1em;font-size:16px;color:var(--text);text-transform:uppercase;}
+  .rank-stripes{display:flex;gap:4px;}
+  .rank-stripes .stripe{width:22px;height:4px;background:var(--border);}
+  .rank-stripes .stripe.on{background:var(--brass);}
+  .dial-sub{font-size:12px;color:var(--text-dim);text-align:center;}
+
+  .subject-bars{display:flex;flex-direction:column;gap:10px;}
+  .sbar-row{display:grid;grid-template-columns:150px 1fr 46px;align-items:center;gap:12px;}
+  .sbar-name{font-size:13px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sbar-track{height:8px;background:var(--bg-2);border:1px solid var(--border-dim);border-radius:2px;overflow:hidden;}
+  .sbar-fill{height:100%;}
+  .sbar-pct{font-size:12px;color:var(--text-faint);text-align:right;font-family:'JetBrains Mono',monospace;}
+
+  .today-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);
+    padding:20px;margin-top:20px;
+  }
+  .today-list{display:flex;flex-direction:column;}
+  .today-row{
+    display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-dim);
+    font-size:13px;
+  }
+  .today-row:last-child{border-bottom:none;}
+  .today-time{font-family:'JetBrains Mono',monospace;color:var(--brass);width:56px;flex:none;font-size:12px;}
+  .today-tag{width:8px;height:8px;border-radius:50%;flex:none;}
+  .empty{color:var(--text-faint);font-size:13px;padding:16px 0;}
+
+  /* ===== Syllabus ===== */
+  .subj-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+  .subj-grid{display:flex;flex-direction:column;gap:14px;}
+  .subj-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);overflow:hidden;
+  }
+  .subj-head{
+    display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;
+  }
+  .subj-swatch{width:10px;height:10px;border-radius:2px;flex:none;}
+  .subj-name{font-family:'Oswald',sans-serif;letter-spacing:0.03em;font-size:16px;flex:1;}
+  .subj-meta{font-size:12px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
+  .subj-caret{color:var(--text-faint);transition:transform .15s;font-size:11px;}
+  .subj-card.open .subj-caret{transform:rotate(90deg);}
+  .subj-body{display:none;border-top:1px solid var(--border-dim);padding:6px 16px 16px;}
+  .subj-card.open .subj-body{display:block;}
+  .topic-row{
+    display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-dim);
+  }
+  .topic-row:last-of-type{border-bottom:none;}
+  .topic-name{flex:1;font-size:13.5px;}
+  .topic-name.done{color:var(--text-faint);text-decoration:line-through;}
+  .add-topic-row{display:flex;gap:8px;margin-top:12px;}
+  .add-topic-row input{flex:1;}
+  .subj-progress-bar{width:70px;height:6px;background:var(--bg-2);border-radius:2px;overflow:hidden;flex:none;}
+  .subj-progress-fill{height:100%;background:var(--brass);}
+
+  .new-subject-form{
+    display:flex;gap:8px;background:var(--panel);border:1px dashed var(--border);padding:14px;border-radius:var(--radius);margin-bottom:16px;
+  }
+  .new-subject-form input{flex:1;}
+
+  /* ===== Planner ===== */
+  .planner-grid{display:flex;flex-direction:column;gap:16px;}
+  .day-card{background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);}
+  .day-head{
+    display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border-dim);
+    background:var(--panel-2);
+  }
+  .day-idx{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);
+    letter-spacing:0.1em;flex:none;
+  }
+  .day-head input.day-date{
+    font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg-2);border:1px solid var(--border);
+    color:var(--text);padding:5px 8px;border-radius:var(--radius);color-scheme:dark;
+  }
+  .day-head input.day-date:hover, .day-head input.day-date:focus{border-color:var(--brass-dim);}
+  .day-weekday{
+    font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:0.06em;text-transform:uppercase;color:var(--brass);
+  }
+  .day-weekday.today{color:var(--olive-light);}
+  .day-today-badge{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--olive-light);
+    border:1px solid var(--olive);padding:2px 6px;border-radius:2px;text-transform:uppercase;flex:none;
+  }
+  .day-count{font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;margin-left:auto;}
+  .slot-list{padding:6px 16px;}
+  .slot-row{
+    display:grid;grid-template-columns:66px 10px 1fr auto auto;align-items:center;gap:10px;
+    padding:9px 0;border-bottom:1px solid var(--border-dim);
+  }
+  .slot-row.done .slot-title{color:var(--text-faint);text-decoration:line-through;}
+  .slot-row:last-of-type{border-bottom:none;}
+  .slot-time{font-family:'JetBrains Mono',monospace;color:var(--brass);font-size:12.5px;}
+  .slot-dot{width:8px;height:8px;border-radius:50%;}
+  .slot-main{min-width:0;}
+  .slot-title{font-size:13.5px;font-weight:600;}
+  .slot-note{font-size:12px;color:var(--text-faint);margin-top:1px;}
+  .slot-actions{display:flex;gap:6px;}
+  .slot-add-btn{padding:10px 16px 14px;}
+  .add-slot-form{
+    display:grid;grid-template-columns:110px 1fr 1fr 90px 1fr auto;gap:8px;padding:12px 16px 16px;
+    border-top:1px solid var(--border-dim);background:var(--bg-2);
+  }
+  @media(max-width:900px){.add-slot-form{grid-template-columns:1fr 1fr;}}
+  .add-slot-form input, .add-slot-form select{width:100%;}
+
+  .day-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+
+  footer.foot{text-align:center;color:var(--text-faint);font-size:11px;padding:30px 0 0;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;}
+
+  /* ===== Profile chip (header) ===== */
+  .profile-chip{
+    display:flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid var(--border);
+    border-radius:20px;padding:5px 12px 5px 5px;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;
+    font-size:13px;font-weight:600;
+  }
+  .profile-chip:hover{border-color:var(--brass-dim);}
+  .profile-chip .avatar{
+    width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Oswald',sans-serif;font-size:11px;color:#161a12;flex:none;
+  }
+
+  /* ===== Auth screen ===== */
+  .auth-wrap{max-width:420px;margin:60px auto;display:flex;flex-direction:column;align-items:center;gap:22px;}
+  .auth-badge{
+    width:56px;height:56px;border:2px solid var(--brass);border-radius:50%;position:relative;
+  }
+  .auth-badge::before{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;background:var(--brass);
+    border-radius:50%;transform:translate(-50%,-50%);}
+  .auth-badge::after{content:'';position:absolute;inset:9px;border:1px solid var(--brass-dim);border-radius:50%;}
+  .auth-title{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;text-align:center;}
+  .auth-sub{font-size:12.5px;color:var(--text-faint);text-align:center;margin-top:-14px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;}
+  .auth-card{
+    width:100%;background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:24px;
+  }
+  .auth-toggle{display:flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;}
+  .auth-toggle button{
+    flex:1;background:var(--bg-2);border:none;color:var(--text-dim);font-family:'Oswald',sans-serif;
+    letter-spacing:0.06em;text-transform:uppercase;font-size:12.5px;padding:10px;cursor:pointer;
+  }
+  .auth-toggle button.active{background:var(--brass);color:#161a12;}
+  .auth-field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+  .auth-field label{font-size:11px;color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+  .auth-field input, .auth-field select{width:100%;padding:10px;}
+  .auth-error{
+    background:rgba(181,69,59,0.12);border:1px solid var(--red-dim);color:#e0a49e;font-size:12.5px;
+    padding:8px 10px;border-radius:var(--radius);margin-bottom:14px;
+  }
+  .auth-hint{font-size:11.5px;color:var(--text-faint);text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;}
+  .auth-hint button{background:none;border:none;color:var(--brass);cursor:pointer;font-family:inherit;font-size:inherit;padding:0;text-decoration:underline;}
+  .btn.block{width:100%;padding:11px;font-size:13.5px;}
+
+  /* ===== Profile page ===== */
+  .profile-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;}
+  @media(max-width:760px){.profile-grid{grid-template-columns:1fr;}}
+  .profile-card{background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:24px;text-align:center;}
+  .profile-avatar{
+    width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+    font-family:'Oswald',sans-serif;font-size:28px;color:#161a12;
+  }
+  .profile-name{font-family:'Oswald',sans-serif;font-size:19px;letter-spacing:0.03em;}
+  .profile-email{font-size:12px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;margin-top:2px;word-break:break-all;}
+  .profile-stats{display:flex;justify-content:center;gap:18px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border-dim);}
+  .profile-stat b{display:block;font-family:'Oswald',sans-serif;font-size:20px;color:var(--brass);}
+  .profile-stat span{font-size:10.5px;color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;}
+  .settings-card{background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:22px;margin-bottom:16px;}
+  .settings-row{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+  .settings-row label{font-size:11px;color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+  .settings-row input, .settings-row select{max-width:340px;}
+  .settings-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;}
+  .danger-zone{border-color:var(--red-dim)!important;}
+  .save-msg{font-size:12px;color:var(--olive-light);margin-left:10px;}
+  .settings-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:460px;}
+  @media(max-width:600px){.settings-grid3{grid-template-columns:1fr;}}
+  .plan-badges{display:flex;flex-direction:column;gap:6px;margin-top:14px;}
+  .plan-badge{
+    display:flex;justify-content:space-between;align-items:center;padding:6px 10px;
+    border-radius:var(--radius);border:1px solid var(--border-dim);background:var(--bg-2);
+  }
+  .plan-badge span{font-size:10px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+  .plan-badge b{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:0.03em;}
+  .plan-badge.a{border-color:var(--brass-dim);}
+  .plan-badge.a b{color:var(--brass);}
+  .plan-badge.b b{color:var(--olive-light);}
+  .plan-badge.c b{color:var(--text-dim);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="kicker">MISSION PREP CONSOLE</div>
+        <h1>SANKALP<span>.</span></h1>
+      </div>
+    </div>
+    <div class="io-buttons" id="ioButtons">
+      <button class="btn small" id="btnExport">Export data</button>
+      <label class="btn small" for="fileImport" style="cursor:pointer;">Import data</label>
+      <input type="file" id="fileImport" accept="application/json">
+      <button class="btn small ghost" id="btnReset">Reset demo</button>
+      <button class="profile-chip" id="profileChip"></button>
+    </div>
+  </div>
+  <div class="top-inner" style="padding-bottom:0;">
+    <nav class="tabs" id="tabs">
+      <button data-view="dashboard" class="active">Dashboard</button>
+      <button data-view="syllabus">Syllabus &amp; Tracker</button>
+      <button data-view="planner">Day-wise Planner</button>
+      <button data-view="profile">Profile</button>
+    </nav>
+  </div>
+</header>
+
+<div class="shell">
+  <main>
+    <section class="view" id="view-auth"></section>
+    <section class="view active" id="view-dashboard"></section>
+    <section class="view" id="view-syllabus"></section>
+    <section class="view" id="view-planner"></section>
+    <section class="view" id="view-profile"></section>
+  </main>
+  <footer class="foot">DISCIPLINE · CONSISTENCY · SANKALP</footer>
+</div>
+
+<script>
+/* ============================= STATE ============================= */
+const PALETTE = ['#c9a227','#6e8b3d','#8a6a4b','#5c7a8a','#b5453b','#9c8c5c','#4b5d3a','#7d5a8a'];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+
+function seedUserData(){
+  const subjects = [
+    { id: uid(), name: 'Mathematics', topics: [
+      {id:uid(), name:'Number System & Algebra', done:true},
+      {id:uid(), name:'Trigonometry', done:true},
+      {id:uid(), name:'Geometry & Mensuration', done:false},
+      {id:uid(), name:'Statistics & Probability', done:false},
+      {id:uid(), name:'Basic Calculus', done:false},
+    ]},
+    { id: uid(), name:'General Science', topics: [
+      {id:uid(), name:'Physics Fundamentals', done:true},
+      {id:uid(), name:'Chemistry Fundamentals', done:false},
+      {id:uid(), name:'Biology & Human Body', done:false},
+    ]},
+    { id: uid(), name:'History & Geography', topics: [
+      {id:uid(), name:'Ancient & Medieval India', done:false},
+      {id:uid(), name:'Modern India & Freedom Struggle', done:false},
+      {id:uid(), name:'Indian Geography', done:true},
+      {id:uid(), name:'World Geography', done:false},
+    ]},
+    { id: uid(), name:'Current Affairs', topics: [
+      {id:uid(), name:'National Affairs', done:false},
+      {id:uid(), name:'International Affairs', done:false},
+      {id:uid(), name:'Defence & Security News', done:false},
+    ]},
+    { id: uid(), name:'English', topics: [
+      {id:uid(), name:'Grammar & Usage', done:true},
+      {id:uid(), name:'Comprehension', done:false},
+      {id:uid(), name:'Vocabulary: Synonyms/Antonyms', done:false},
+    ]},
+    { id: uid(), name:'Reasoning & Defence GK', topics: [
+      {id:uid(), name:'Logical & Verbal Reasoning', done:false},
+      {id:uid(), name:'Static GK', done:false},
+      {id:uid(), name:'Ranks, Ops & Awards', done:false},
+    ]},
+    { id: uid(), name:'Physical Fitness', topics: [
+      {id:uid(), name:'Running (1.6km/2.4km)', done:true},
+      {id:uid(), name:'Push-ups & Sit-ups', done:false},
+      {id:uid(), name:'Pull-ups', done:false},
+    ]},
+  ];
+
+  const s = subjects;
+  const days = [
+    { id: uid(), date: todayISO(), slots:[
+      {id:uid(), time:'05:30', subjectId:s[6].id, topicId:s[6].topics[0].id, duration:60, note:'Field run', done:true},
+      {id:uid(), time:'07:00', subjectId:s[0].id, topicId:s[0].topics[0].id, duration:90, note:'', done:true},
+      {id:uid(), time:'17:00', subjectId:s[3].id, topicId:s[3].topics[0].id, duration:45, note:'Newspaper + notes', done:false},
+    ]},
+    { id: uid(), date: addDaysISO(todayISO(),1), slots:[
+      {id:uid(), time:'05:30', subjectId:s[6].id, topicId:s[6].topics[1].id, duration:45, note:'', done:false},
+      {id:uid(), time:'07:00', subjectId:s[1].id, topicId:s[1].topics[0].id, duration:90, note:'', done:false},
+      {id:uid(), time:'18:00', subjectId:s[4].id, topicId:s[4].topics[0].id, duration:60, note:'', done:false},
+    ]},
+  ];
+
+  return { subjects, days, ui:{ openSubjects:{}, addingTopicFor:null } };
+}
+
+/* ============================= ACCOUNTS / AUTH ============================= */
+const EXAM_OPTIONS = ['NDA','CDS','AFCAT','CAPF','SSB / Other'];
+
+function makeUser({name, email, password, planA, planB, planC}){
+  return {
+    id: uid(),
+    name, email: email.toLowerCase(), password,
+    plans: { a: planA, b: planB, c: planC },
+    joinDate: todayISO(),
+    ...seedUserData()
+  };
+}
+function findUserByEmail(email){
+  return state.users.find(u=>u.email === String(email||'').toLowerCase().trim());
+}
+function cu(){ return state.users.find(u=>u.id===state.currentUserId) || null; }
+function initials(name){
+  return String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()).join('') || '?';
+}
+function avatarColorFor(id){
+  let h=0; for(const c of String(id)) h = (h*31 + c.charCodeAt(0)) % PALETTE.length;
+  return PALETTE[h];
+}
+
+let state = {
+  users: [ makeUser({name:'Demo Aspirant', email:'demo@sankalp.app', password:'demo123', planA:'NDA', planB:'CDS', planC:'AFCAT'}) ],
+  currentUserId: null,
+};
+
+/* ============================= HELPERS ============================= */
+function subjColor(idx){ return PALETTE[idx % PALETTE.length]; }
+function subjectIndex(id){ return cu().subjects.findIndex(s=>s.id===id); }
+function getSubject(id){ return cu().subjects.find(s=>s.id===id); }
+function getTopic(subj, topicId){ return subj ? subj.topics.find(t=>t.id===topicId) : null; }
+
+function subjectProgress(subj){
+  if(!subj.topics.length) return 0;
+  const done = subj.topics.filter(t=>t.done).length;
+  return Math.round(done/subj.topics.length*100);
+}
+function overallProgress(){
+  let total=0, done=0;
+  cu().subjects.forEach(s=>{ total+=s.topics.length; done+=s.topics.filter(t=>t.done).length; });
+  return total ? Math.round(done/total*100) : 0;
+}
+function rankFor(pct){
+  if(pct>=90) return {name:'Commander', stripes:5};
+  if(pct>=70) return {name:'Officer', stripes:4};
+  if(pct>=45) return {name:'Officer Cadet', stripes:3};
+  if(pct>=20) return {name:'Cadet', stripes:2};
+  return {name:'Recruit', stripes:1};
+}
+function timeToMinutes(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
+
+/* ---- date helpers (system date driven) ---- */
+function todayISO(){
+  const d = new Date();
+  const off = d.getTimezoneOffset();
+  const local = new Date(d.getTime() - off*60000);
+  return local.toISOString().slice(0,10);
+}
+function addDaysISO(iso, n){
+  const d = new Date(iso+'T00:00:00');
+  d.setDate(d.getDate()+n);
+  const off = d.getTimezoneOffset();
+  const local = new Date(d.getTime() - off*60000);
+  return local.toISOString().slice(0,10);
+}
+function weekdayName(iso){
+  if(!iso) return '—';
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString(undefined, {weekday:'long'});
+}
+function formatDatePretty(iso){
+  if(!iso) return '—';
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString(undefined, {day:'2-digit', month:'short', year:'numeric'});
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============================= RENDER: DASHBOARD ============================= */
+function renderDashboard(){
+  const pct = overallProgress();
+  const rank = rankFor(pct);
+  const angle = pct*3.6;
+
+  const stripesHtml = Array.from({length:5}).map((_,i)=>
+    `<div class="stripe ${i<rank.stripes?'on':''}"></div>`).join('');
+
+  const barsHtml = cu().subjects.map((s,i)=>{
+    const p = subjectProgress(s);
+    return `<div class="sbar-row">
+      <div class="sbar-name">${escapeHtml(s.name)}</div>
+      <div class="sbar-track"><div class="sbar-fill" style="width:${p}%;background:${subjColor(i)}"></div></div>
+      <div class="sbar-pct">${p}%</div>
+    </div>`;
+  }).join('') || '<div class="empty">No subjects yet. Add one from the Syllabus tab.</div>';
+
+  // pick today's day if present, else the nearest upcoming day, else the first day
+  let todayHtml = '<div class="empty">No plan yet. Build one in Day-wise Planner.</div>';
+  let focusDay = null;
+  if(cu().days.length){
+    const today = todayISO();
+    focusDay = cu().days.find(d=>d.date===today);
+    if(!focusDay){
+      const upcoming = cu().days.filter(d=>d.date && d.date>today).sort((a,b)=>a.date.localeCompare(b.date));
+      focusDay = upcoming[0] || cu().days[0];
+    }
+  }
+  if(focusDay){
+    const day = focusDay;
+    const sorted = [...day.slots].sort((a,b)=>timeToMinutes(a.time)-timeToMinutes(b.time));
+    if(sorted.length){
+      todayHtml = sorted.map(sl=>{
+        const subj = getSubject(sl.subjectId);
+        const idx = subjectIndex(sl.subjectId);
+        const topic = getTopic(subj, sl.topicId);
+        return `<div class="today-row">
+          <div class="today-time">${sl.time}</div>
+          <div class="slot-dot" style="background:${subjColor(idx<0?0:idx)}"></div>
+          <div style="flex:1;">
+            <div style="font-weight:600;">${subj?escapeHtml(subj.name):'—'}${topic?' · '+escapeHtml(topic.name):''}</div>
+          </div>
+          <div class="mono" style="font-size:11px;color:var(--text-faint)">${sl.duration}m</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  document.getElementById('view-dashboard').innerHTML = `
+    <div class="dash-grid">
+      <div>
+        <div class="dial-card">
+          <div class="dial" style="background:conic-gradient(var(--brass) ${angle}deg, var(--border-dim) 0deg)">
+            <div class="hole">
+              <div class="pct">${pct}%</div>
+              <div class="lbl">READINESS</div>
+            </div>
+          </div>
+          <div class="rank">${rank.name}</div>
+          <div class="rank-stripes">${stripesHtml}</div>
+          <div class="dial-sub">Overall syllabus completed across all subjects. Keep grinding — every topic checked off moves your rank up.</div>
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title">Subject-wise progress</h2>
+        <div class="subject-bars">${barsHtml}</div>
+        <div class="today-card">
+          <h2 class="section-title" style="margin-bottom:10px;">${focusDay ? (focusDay.date===todayISO()?'Today':weekdayName(focusDay.date))+' · '+formatDatePretty(focusDay.date) : 'Up next'}</h2>
+          <div class="today-list">${todayHtml}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================= RENDER: SYLLABUS ============================= */
+function renderSyllabus(){
+  const cardsHtml = cu().subjects.map((s,i)=>{
+    const open = !!cu().ui.openSubjects[s.id];
+    const p = subjectProgress(s);
+    const topicsHtml = s.topics.map(t=>`
+      <div class="topic-row">
+        <input type="checkbox" data-action="toggle-topic" data-subject="${s.id}" data-topic="${t.id}" ${t.done?'checked':''}>
+        <div class="topic-name ${t.done?'done':''}">${escapeHtml(t.name)}</div>
+        <button class="icon-btn" data-action="remove-topic" data-subject="${s.id}" data-topic="${t.id}" title="Remove topic">×</button>
+      </div>
+    `).join('') || '<div class="empty">No topics yet — add the first one below.</div>';
+
+    return `
+      <div class="subj-card ${open?'open':''}" data-subject-card="${s.id}">
+        <div class="subj-head" data-action="toggle-subject" data-subject="${s.id}">
+          <span class="subj-caret">▶</span>
+          <div class="subj-swatch" style="background:${subjColor(i)}"></div>
+          <div class="subj-name">${escapeHtml(s.name)}</div>
+          <div class="subj-progress-bar"><div class="subj-progress-fill" style="width:${p}%;background:${subjColor(i)}"></div></div>
+          <div class="subj-meta">${s.topics.filter(t=>t.done).length}/${s.topics.length}</div>
+          <button class="icon-btn" data-action="remove-subject" data-subject="${s.id}" title="Remove subject" onclick="event.stopPropagation()">×</button>
+        </div>
+        <div class="subj-body">
+          ${topicsHtml}
+          <div class="add-topic-row">
+            <input type="text" placeholder="Add a topic (e.g. Modern History)" data-add-topic-input="${s.id}">
+            <button class="btn small" data-action="add-topic" data-subject="${s.id}">Add topic</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('view-syllabus').innerHTML = `
+    <div class="subj-toolbar">
+      <h2 class="section-title" style="margin:0;">Syllabus tracker — tap a topic to mark it complete</h2>
+    </div>
+    <div class="new-subject-form">
+      <input type="text" id="newSubjectInput" placeholder="New subject name (e.g. Computer Awareness)">
+      <button class="btn primary" id="btnAddSubject">Add subject</button>
+    </div>
+    <div class="subj-grid">${cardsHtml || '<div class="empty">No subjects yet.</div>'}</div>
+  `;
+}
+
+/* ============================= RENDER: PLANNER ============================= */
+function subjectOptions(selectedId){
+  return cu().subjects.map(s=>`<option value="${s.id}" ${s.id===selectedId?'selected':''}>${escapeHtml(s.name)}</option>`).join('');
+}
+function planOptionsHtml(selected){
+  const placeholder = `<option value="" ${!selected?'selected':''} disabled>— Select —</option>`;
+  return placeholder + EXAM_OPTIONS.map(ex=>`<option ${ex===selected?'selected':''}>${ex}</option>`).join('');
+}
+function topicOptions(subj, selectedId){
+  if(!subj) return '<option value="">—</option>';
+  return '<option value="">(no specific topic)</option>' + subj.topics.map(t=>`<option value="${t.id}" ${t.id===selectedId?'selected':''}>${escapeHtml(t.name)}</option>`).join('');
+}
+
+function renderPlanner(){
+  const daysHtml = cu().days.map((day, dayIdx)=>{
+    const sorted = [...day.slots].sort((a,b)=>timeToMinutes(a.time)-timeToMinutes(b.time));
+    const slotsHtml = sorted.map(sl=>{
+      const subj = getSubject(sl.subjectId);
+      const idx = subjectIndex(sl.subjectId);
+      const topic = getTopic(subj, sl.topicId);
+      return `<div class="slot-row ${sl.done?'done':''}">
+        <div class="slot-time">${sl.time}</div>
+        <div class="slot-dot" style="background:${subjColor(idx<0?0:idx)}"></div>
+        <div class="slot-main">
+          <div class="slot-title">${subj?escapeHtml(subj.name):'(subject removed)'}${topic?' · '+escapeHtml(topic.name):''} <span class="mono" style="color:var(--text-faint);font-weight:400;font-size:11px;">${sl.duration}m</span></div>
+          ${sl.note ? `<div class="slot-note">${escapeHtml(sl.note)}</div>` : ''}
+        </div>
+        <button class="icon-btn check" data-action="toggle-slot" data-day="${day.id}" data-slot="${sl.id}" title="Mark done">${sl.done?'✓':'○'}</button>
+        <div class="slot-actions">
+          <button class="icon-btn" data-action="remove-slot" data-day="${day.id}" data-slot="${sl.id}" title="Remove slot">×</button>
+        </div>
+      </div>`;
+    }).join('') || '<div class="empty">No slots yet — add one below.</div>';
+
+    const isToday = day.date === todayISO();
+    return `
+      <div class="day-card">
+        <div class="day-head">
+          <div class="day-idx">DAY ${dayIdx+1}</div>
+          <input class="day-date" type="date" value="${day.date||''}" data-action="rename-day" data-day="${day.id}">
+          <div class="day-weekday ${isToday?'today':''}">${weekdayName(day.date)}${day.date?', '+formatDatePretty(day.date):''}</div>
+          ${isToday ? '<div class="day-today-badge">Today</div>' : ''}
+          <div class="day-count">${day.slots.length} slot${day.slots.length===1?'':'s'}</div>
+          <button class="icon-btn" data-action="remove-day" data-day="${day.id}" title="Remove day">×</button>
+        </div>
+        <div class="slot-list">${slotsHtml}</div>
+        <form class="add-slot-form" data-action="add-slot" data-day="${day.id}">
+          <input type="time" name="time" value="06:00" required>
+          <select name="subjectId" data-role="subject-select">
+            ${subjectOptions(cu().subjects[0]?.id)}
+          </select>
+          <select name="topicId" data-role="topic-select">
+            ${topicOptions(cu().subjects[0], null)}
+          </select>
+          <input type="number" name="duration" min="5" step="5" value="45" placeholder="min" required>
+          <input type="text" name="note" placeholder="Note (optional)">
+          <button class="btn primary small" type="submit">Add slot</button>
+        </form>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('view-planner').innerHTML = `
+    <div class="day-toolbar">
+      <h2 class="section-title" style="margin:0;">Day-wise plan — edit, add or remove slots freely</h2>
+      <button class="btn primary small" id="btnAddDay">+ Add day</button>
+    </div>
+    <div class="planner-grid">${daysHtml || '<div class="empty">No days yet.</div>'}</div>
+  `;
+}
+
+/* ============================= FULL RENDER ============================= */
+function renderAll(){
+  renderDashboard();
+  renderSyllabus();
+  renderPlanner();
+  renderProfileChip();
+  if(cu()) renderProfile();
+}
+
+/* ============================= RENDER: PROFILE CHIP ============================= */
+function renderProfileChip(){
+  const chip = document.getElementById('profileChip');
+  const u = cu();
+  if(!u){ chip.innerHTML=''; return; }
+  chip.innerHTML = `<span class="avatar" style="background:${avatarColorFor(u.id)}">${initials(u.name)}</span>${escapeHtml(u.name.split(' ')[0])}`;
+}
+
+/* ============================= RENDER: PROFILE PAGE ============================= */
+function renderProfile(){
+  const u = cu();
+  if(!u) return;
+  const pct = overallProgress();
+  const rank = rankFor(pct);
+  document.getElementById('view-profile').innerHTML = `
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-avatar" style="background:${avatarColorFor(u.id)}">${initials(u.name)}</div>
+        <div class="profile-name">${escapeHtml(u.name)}</div>
+        <div class="profile-email">${escapeHtml(u.email)}</div>
+        <div style="margin-top:10px;" class="rank">${rank.name}</div>
+        <div class="plan-badges">
+          <div class="plan-badge a"><span>Plan A</span><b>${escapeHtml(u.plans.a)}</b></div>
+          <div class="plan-badge b"><span>Plan B</span><b>${escapeHtml(u.plans.b)}</b></div>
+          <div class="plan-badge c"><span>Plan C</span><b>${escapeHtml(u.plans.c)}</b></div>
+        </div>
+        <div class="profile-stats">
+          <div class="profile-stat"><b>${pct}%</b><span>Readiness</span></div>
+          <div class="profile-stat"><b>${u.subjects.length}</b><span>Subjects</span></div>
+          <div class="profile-stat"><b>${u.days.length}</b><span>Days planned</span></div>
+        </div>
+        <div style="margin-top:16px;font-size:11px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;">
+          Aspirant since ${formatDatePretty(u.joinDate)}
+        </div>
+        <button class="btn danger block" style="margin-top:18px;" id="btnLogout">Log out</button>
+      </div>
+
+      <div>
+        <div class="settings-card">
+          <h2 class="section-title">Account details</h2>
+          <form id="formProfileDetails">
+            <div class="settings-row">
+              <label>Full name</label>
+              <input type="text" name="name" value="${escapeHtml(u.name)}" required>
+            </div>
+            <div class="settings-row">
+              <label>Your three goals — all compulsory</label>
+            </div>
+            <div class="settings-grid3">
+              <div class="settings-row">
+                <label>Plan A (primary)</label>
+                <select name="planA" required>${planOptionsHtml(u.plans.a)}</select>
+              </div>
+              <div class="settings-row">
+                <label>Plan B (backup)</label>
+                <select name="planB" required>${planOptionsHtml(u.plans.b)}</select>
+              </div>
+              <div class="settings-row">
+                <label>Plan C (backup)</label>
+                <select name="planC" required>${planOptionsHtml(u.plans.c)}</select>
+              </div>
+            </div>
+            <div id="detailsError" class="auth-error" style="display:none;max-width:460px;"></div>
+            <button class="btn primary small" type="submit">Save changes</button>
+            <span class="save-msg" id="detailsSaveMsg"></span>
+          </form>
+        </div>
+
+        <div class="settings-card">
+          <h2 class="section-title">Change password</h2>
+          <form id="formPassword">
+            <div class="settings-grid2">
+              <div class="settings-row">
+                <label>Current password</label>
+                <input type="password" name="oldPassword" required>
+              </div>
+              <div class="settings-row">
+                <label>New password</label>
+                <input type="password" name="newPassword" required minlength="4">
+              </div>
+            </div>
+            <div id="passwordError" class="auth-error" style="display:none;max-width:420px;"></div>
+            <button class="btn primary small" type="submit">Update password</button>
+            <span class="save-msg" id="passwordSaveMsg"></span>
+          </form>
+        </div>
+
+        <div class="settings-card danger-zone">
+          <h2 class="section-title" style="color:var(--red);">Danger zone</h2>
+          <p style="font-size:12.5px;color:var(--text-dim);margin-top:0;">
+            Deleting your account permanently removes your syllabus, tracker progress and day-wise plan from this session.
+            Export your data first if you want a backup.
+          </p>
+          <button class="btn danger small" id="btnDeleteAccount">Delete account</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================= RENDER: AUTH SCREEN ============================= */
+let authMode = 'login'; // 'login' | 'signup'
+let authError = '';
+
+function renderAuth(){
+  const isLogin = authMode === 'login';
+  document.getElementById('view-auth').innerHTML = `
+    <div class="auth-wrap">
+      <div class="auth-badge"></div>
+      <div>
+        <div class="auth-title">Sankalp</div>
+        <div class="auth-sub">MISSION PREP CONSOLE — IDENTIFICATION REQUIRED</div>
+      </div>
+      <div class="auth-card">
+        <div class="auth-toggle">
+          <button data-mode="login" class="${isLogin?'active':''}">Log In</button>
+          <button data-mode="signup" class="${!isLogin?'active':''}">Sign Up</button>
+        </div>
+        ${authError ? `<div class="auth-error">${escapeHtml(authError)}</div>` : ''}
+        ${isLogin ? `
+          <form id="formLogin">
+            <div class="auth-field"><label>Email</label><input type="email" name="email" required autocomplete="username"></div>
+            <div class="auth-field"><label>Password</label><input type="password" name="password" required autocomplete="current-password"></div>
+            <button class="btn primary block" type="submit">Log In</button>
+          </form>
+          <div class="auth-hint">Demo access — email <b>demo@sankalp.app</b>, password <b>demo123</b>, or <button id="btnUseDemo" type="button">jump in instantly</button>.</div>
+        ` : `
+          <form id="formSignup">
+            <div class="auth-field"><label>Full name</label><input type="text" name="name" required></div>
+            <div class="auth-field"><label>Email</label><input type="email" name="email" required autocomplete="username"></div>
+            <div class="auth-field"><label>Plan A — primary goal</label>
+              <select name="planA" required>${planOptionsHtml(null)}</select>
+            </div>
+            <div class="auth-field"><label>Plan B — backup goal</label>
+              <select name="planB" required>${planOptionsHtml(null)}</select>
+            </div>
+            <div class="auth-field"><label>Plan C — backup goal</label>
+              <select name="planC" required>${planOptionsHtml(null)}</select>
+            </div>
+            <div class="auth-field"><label>Password</label><input type="password" name="password" required minlength="4" autocomplete="new-password"></div>
+            <button class="btn primary block" type="submit">Create Account</button>
+          </form>
+          <div class="auth-hint">All three goals are compulsory — pick a different exam for each. Already enlisted? <button id="btnGoLogin" type="button">Log in instead</button>.</div>
+        `}
+      </div>
+      <div class="auth-sub" style="max-width:380px;">This is a browser-only demo: accounts live for the current session. Use Export/Import from your profile once logged in to keep a backup.</div>
+    </div>
+  `;
+}
+
+/* ============================= SHELL (auth-gated layout) ============================= */
+function renderShell(){
+  const loggedIn = !!cu();
+  document.getElementById('tabs').style.display = loggedIn ? 'flex' : 'none';
+  document.getElementById('ioButtons').style.display = loggedIn ? 'flex' : 'none';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  if(!loggedIn){
+    renderAuth();
+    document.getElementById('view-auth').classList.add('active');
+  } else {
+    renderAll();
+    renderProfile();
+    document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelector('#tabs button[data-view="dashboard"]').classList.add('active');
+    document.getElementById('view-dashboard').classList.add('active');
+  }
+}
+renderShell();
+
+/* ============================= AUTH EVENTS ============================= */
+document.getElementById('view-auth').addEventListener('click', e=>{
+  const modeBtn = e.target.closest('[data-mode]');
+  if(modeBtn){ authMode = modeBtn.dataset.mode; authError=''; renderAuth(); return; }
+  if(e.target.id==='btnGoLogin'){ authMode='login'; authError=''; renderAuth(); return; }
+  if(e.target.id==='btnUseDemo'){
+    const demo = findUserByEmail('demo@sankalp.app');
+    if(demo){ state.currentUserId = demo.id; authError=''; renderShell(); }
+    return;
+  }
+});
+document.getElementById('view-auth').addEventListener('submit', e=>{
+  e.preventDefault();
+  if(e.target.id==='formLogin'){
+    const fd = new FormData(e.target);
+    const email = fd.get('email'), password = fd.get('password');
+    const u = findUserByEmail(email);
+    if(!u || u.password !== password){
+      authError = 'No match found for that email and password.';
+      renderAuth();
+      return;
+    }
+    state.currentUserId = u.id;
+    authError='';
+    renderShell();
+  }
+  if(e.target.id==='formSignup'){
+    const fd = new FormData(e.target);
+    const name = fd.get('name').trim();
+    const email = fd.get('email').trim();
+    const planA = fd.get('planA'), planB = fd.get('planB'), planC = fd.get('planC');
+    const password = fd.get('password');
+    if(findUserByEmail(email)){
+      authError = 'An account with that email already exists — try logging in.';
+      renderAuth();
+      return;
+    }
+    if(!planA || !planB || !planC){
+      authError = 'Plan A, Plan B and Plan C are all compulsory — please pick an exam for each.';
+      renderAuth();
+      return;
+    }
+    if(planA===planB || planB===planC || planA===planC){
+      authError = 'Plan A, Plan B and Plan C must each be a different exam.';
+      renderAuth();
+      return;
+    }
+    const u = makeUser({name, email, password, planA, planB, planC});
+    state.users.push(u);
+    state.currentUserId = u.id;
+    authError='';
+    renderShell();
+  }
+});
+
+/* ============================= PROFILE EVENTS ============================= */
+document.getElementById('view-profile').addEventListener('click', e=>{
+  if(e.target.id==='btnLogout'){
+    state.currentUserId = null;
+    authMode='login'; authError='';
+    renderShell();
+    return;
+  }
+  if(e.target.id==='btnDeleteAccount'){
+    const u = cu();
+    if(!u) return;
+    if(confirm('Permanently delete your account and all its data for this session?')){
+      state.users = state.users.filter(x=>x.id!==u.id);
+      state.currentUserId = null;
+      renderShell();
+    }
+  }
+});
+document.getElementById('view-profile').addEventListener('submit', e=>{
+  const u = cu();
+  if(!u) return;
+  if(e.target.id==='formProfileDetails'){
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const errBox = document.getElementById('detailsError');
+    const planA = fd.get('planA'), planB = fd.get('planB'), planC = fd.get('planC');
+    if(!planA || !planB || !planC){
+      errBox.textContent = 'Plan A, Plan B and Plan C are all compulsory — please pick an exam for each.';
+      errBox.style.display='block';
+      return;
+    }
+    if(planA===planB || planB===planC || planA===planC){
+      errBox.textContent = 'Plan A, Plan B and Plan C must each be a different exam.';
+      errBox.style.display='block';
+      return;
+    }
+    errBox.style.display='none';
+    u.name = fd.get('name').trim() || u.name;
+    u.plans = { a:planA, b:planB, c:planC };
+    renderProfile();
+    renderProfileChip();
+    document.getElementById('detailsSaveMsg').textContent = 'Saved.';
+  }
+  if(e.target.id==='formPassword'){
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const oldPassword = fd.get('oldPassword'), newPassword = fd.get('newPassword');
+    const errBox = document.getElementById('passwordError');
+    if(oldPassword !== u.password){
+      errBox.textContent = 'Current password is incorrect.';
+      errBox.style.display='block';
+      return;
+    }
+    u.password = newPassword;
+    errBox.style.display='none';
+    e.target.reset();
+    document.getElementById('passwordSaveMsg').textContent = 'Password updated.';
+  }
+});
+
+/* ============================= NAV ============================= */
+document.getElementById('tabs').addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-view]');
+  if(!btn || !cu()) return;
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+btn.dataset.view).classList.add('active');
+});
+document.getElementById('profileChip').addEventListener('click', ()=>{
+  if(!cu()) return;
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('#tabs button[data-view="profile"]').classList.add('active');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-profile').classList.add('active');
+});
+
+/* ============================= SYLLABUS EVENTS ============================= */
+document.getElementById('view-syllabus').addEventListener('click', e=>{
+  const head = e.target.closest('[data-action="toggle-subject"]');
+  if(head){
+    const id = head.dataset.subject;
+    cu().ui.openSubjects[id] = !cu().ui.openSubjects[id];
+    renderSyllabus();
+    return;
+  }
+  const rmSubj = e.target.closest('[data-action="remove-subject"]');
+  if(rmSubj){
+    const id = rmSubj.dataset.subject;
+    const subj = getSubject(id);
+    if(confirm(`Remove subject "${subj?subj.name:''}" and all its topics?`)){
+      cu().subjects = cu().subjects.filter(s=>s.id!==id);
+      // clean up planner slots pointing to this subject
+      cu().days.forEach(d=>{ d.slots = d.slots.filter(sl=>sl.subjectId!==id); });
+      renderAll();
+    }
+    return;
+  }
+  const rmTopic = e.target.closest('[data-action="remove-topic"]');
+  if(rmTopic){
+    const subj = getSubject(rmTopic.dataset.subject);
+    const topicId = rmTopic.dataset.topic;
+    if(subj){
+      subj.topics = subj.topics.filter(t=>t.id!==topicId);
+      cu().days.forEach(d=>{ d.slots.forEach(sl=>{ if(sl.topicId===topicId) sl.topicId=''; }); });
+      renderAll();
+    }
+    return;
+  }
+  const addTopic = e.target.closest('[data-action="add-topic"]');
+  if(addTopic){
+    const subj = getSubject(addTopic.dataset.subject);
+    const input = document.querySelector(`[data-add-topic-input="${addTopic.dataset.subject}"]`);
+    const val = input.value.trim();
+    if(val && subj){
+      subj.topics.push({id:uid(), name:val, done:false});
+      cu().ui.openSubjects[subj.id] = true;
+      renderAll();
+    }
+    return;
+  }
+});
+
+document.getElementById('view-syllabus').addEventListener('change', e=>{
+  const cb = e.target.closest('[data-action="toggle-topic"]');
+  if(cb){
+    const subj = getSubject(cb.dataset.subject);
+    const topic = getTopic(subj, cb.dataset.topic);
+    if(topic){ topic.done = cb.checked; renderAll(); }
+  }
+});
+
+document.getElementById('view-syllabus').addEventListener('keydown', e=>{
+  if(e.key==='Enter' && e.target.matches('[data-add-topic-input]')){
+    e.preventDefault();
+    const subjId = e.target.getAttribute('data-add-topic-input');
+    const val = e.target.value.trim();
+    const subj = getSubject(subjId);
+    if(val && subj){
+      subj.topics.push({id:uid(), name:val, done:false});
+      cu().ui.openSubjects[subj.id] = true;
+      renderAll();
+    }
+  }
+});
+
+document.getElementById('view-syllabus').addEventListener('click', e=>{
+  if(e.target.id==='btnAddSubject'){
+    const input = document.getElementById('newSubjectInput');
+    const val = input.value.trim();
+    if(val){
+      const s = {id:uid(), name:val, topics:[]};
+      cu().subjects.push(s);
+      cu().ui.openSubjects[s.id] = true;
+      renderAll();
+    }
+  }
+});
+document.getElementById('view-syllabus').addEventListener('keydown', e=>{
+  if(e.key==='Enter' && e.target.id==='newSubjectInput'){
+    e.preventDefault();
+    document.getElementById('btnAddSubject').click();
+  }
+});
+
+/* ============================= PLANNER EVENTS ============================= */
+document.getElementById('view-planner').addEventListener('click', e=>{
+  if(e.target.id==='btnAddDay'){
+    const last = cu().days[cu().days.length-1];
+    const nextDate = last && last.date ? addDaysISO(last.date, 1) : todayISO();
+    cu().days.push({id:uid(), date: nextDate, slots:[]});
+    renderAll();
+    return;
+  }
+  const rmDay = e.target.closest('[data-action="remove-day"]');
+  if(rmDay){
+    if(confirm('Remove this day and all its slots?')){
+      cu().days = cu().days.filter(d=>d.id!==rmDay.dataset.day);
+      renderAll();
+    }
+    return;
+  }
+  const rmSlot = e.target.closest('[data-action="remove-slot"]');
+  if(rmSlot){
+    const day = cu().days.find(d=>d.id===rmSlot.dataset.day);
+    if(day){ day.slots = day.slots.filter(sl=>sl.id!==rmSlot.dataset.slot); renderAll(); }
+    return;
+  }
+  const toggleSlot = e.target.closest('[data-action="toggle-slot"]');
+  if(toggleSlot){
+    const day = cu().days.find(d=>d.id===toggleSlot.dataset.day);
+    const slot = day && day.slots.find(sl=>sl.id===toggleSlot.dataset.slot);
+    if(slot){ slot.done = !slot.done; renderAll(); }
+    return;
+  }
+});
+
+document.getElementById('view-planner').addEventListener('change', e=>{
+  const rename = e.target.closest('[data-action="rename-day"]');
+  if(rename){
+    const day = cu().days.find(d=>d.id===rename.dataset.day);
+    if(day){ day.date = rename.value; renderAll(); }
+    return;
+  }
+  // subject select changed inside an add-slot form -> refresh topic options
+  const subjSelect = e.target.closest('[data-role="subject-select"]');
+  if(subjSelect){
+    const form = subjSelect.closest('form');
+    const topicSelect = form.querySelector('[data-role="topic-select"]');
+    const subj = getSubject(subjSelect.value);
+    topicSelect.innerHTML = topicOptions(subj, null);
+    return;
+  }
+});
+
+document.getElementById('view-planner').addEventListener('submit', e=>{
+  const form = e.target.closest('[data-action="add-slot"]');
+  if(!form) return;
+  e.preventDefault();
+  const day = cu().days.find(d=>d.id===form.dataset.day);
+  if(!day) return;
+  const fd = new FormData(form);
+  const time = fd.get('time');
+  const subjectId = fd.get('subjectId');
+  const topicId = fd.get('topicId') || '';
+  const duration = parseInt(fd.get('duration'),10) || 30;
+  const note = (fd.get('note')||'').trim();
+  if(!time || !subjectId) return;
+  day.slots.push({id:uid(), time, subjectId, topicId, duration, note, done:false});
+  renderAll();
+});
+
+/* ============================= EXPORT / IMPORT / RESET ============================= */
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  const u = cu();
+  if(!u) return;
+  const data = JSON.stringify({
+    name: u.name, plans: u.plans,
+    subjects: u.subjects, days: u.days
+  }, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'sankalp-prep-data.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('fileImport').addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const u = cu();
+  if(!u) return;
+  const reader = new FileReader();
+  reader.onload = evt=>{
+    try{
+      const parsed = JSON.parse(evt.target.result);
+      if(parsed.subjects && parsed.days){
+        u.subjects = parsed.subjects;
+        u.days = parsed.days;
+        u.ui = {openSubjects:{}, addingTopicFor:null};
+        renderAll();
+        alert('Data imported successfully.');
+      } else {
+        alert('This file does not look like a valid Sankalp export.');
+      }
+    }catch(err){
+      alert('Could not read that file — make sure it is a Sankalp JSON export.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  const u = cu();
+  if(!u) return;
+  if(confirm('Reset to the default demo plan? This clears your current syllabus and day plan (your account stays logged in).')){
+    const fresh = seedUserData();
+    u.subjects = fresh.subjects;
+    u.days = fresh.days;
+    u.ui = fresh.ui;
+    renderAll();
+  }
+});
+</script>
+</body>
+</html>
