@@ -265,8 +265,9 @@
   .auth-badge::before{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;background:var(--brass);
     border-radius:50%;transform:translate(-50%,-50%);}
   .auth-badge::after{content:'';position:absolute;inset:9px;border:1px solid var(--brass-dim);border-radius:50%;}
-  .auth-title{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;text-align:center;}
-  .auth-sub{font-size:12.5px;color:var(--text-faint);text-align:center;margin-top:-14px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;}
+  .auth-title-block{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .auth-title{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;text-align:center;line-height:1.2;}
+  .auth-sub{font-size:12.5px;color:var(--text-faint);text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;line-height:1.5;}
   .auth-card{
     width:100%;background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:24px;
   }
@@ -340,6 +341,34 @@
     background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);padding:20px;
   }
   .fitness-summary-card .rank{margin-bottom:4px;}
+
+  /* ===== Plans & Countdown ===== */
+  .plans-grid{display:flex;flex-direction:column;gap:14px;}
+  .plan-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);
+    padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between;
+  }
+  .plan-card-fields{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .plan-card-fields select, .plan-card-fields input[type=date]{min-width:140px;}
+  .plan-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--text-faint);
+    text-transform:uppercase;flex:none;width:56px;
+  }
+  .countdown-row{display:flex;gap:10px;}
+  .countdown-row.expired .countdown-box b{color:var(--red);}
+  .countdown-box{
+    background:var(--bg-2);border:1px solid var(--border-dim);border-radius:var(--radius);
+    padding:6px 10px;text-align:center;min-width:52px;
+  }
+  .countdown-box b{display:block;font-family:'Oswald',sans-serif;font-size:18px;color:var(--brass);}
+  .countdown-box span{font-size:9px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;}
+  .countdown-empty{font-size:12px;color:var(--text-faint);font-style:italic;}
+  .plans-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .profile-nearest-plan{
+    font-size:12px;color:var(--text-dim);margin-top:12px;padding:8px 10px;background:var(--bg-2);
+    border:1px solid var(--border-dim);border-radius:var(--radius);
+  }
+  .profile-nearest-plan b{color:var(--brass);}
 </style>
 </head>
 <body>
@@ -367,6 +396,7 @@
       <button data-view="syllabus">Syllabus &amp; Tracker</button>
       <button data-view="fitness">Fitness</button>
       <button data-view="planner">Day-wise Planner</button>
+      <button data-view="plans">Plans &amp; Countdown</button>
       <button data-view="profile">Profile</button>
     </nav>
   </div>
@@ -379,6 +409,7 @@
     <section class="view" id="view-syllabus"></section>
     <section class="view" id="view-fitness"></section>
     <section class="view" id="view-planner"></section>
+    <section class="view" id="view-plans"></section>
     <section class="view" id="view-profile"></section>
   </main>
   <footer class="foot">
@@ -467,11 +498,11 @@ function seedUserData(){
 /* ============================= ACCOUNTS / AUTH ============================= */
 const EXAM_OPTIONS = ['NDA','CDS','AFCAT','CAPF','SSB / Other'];
 
-function makeUser({name, email, password, planA, planB, planC}){
+function makeUser({name, email, password, plans}){
   return {
     id: uid(),
     name, email: email.toLowerCase(), password,
-    plans: { a: planA, b: planB, c: planC },
+    plans: (plans && plans.length ? plans : [{exam:EXAM_OPTIONS[0], date:''}]).map(p=>({id:uid(), exam:p.exam, date:p.date||''})),
     joinDate: todayISO(),
     ...seedUserData()
   };
@@ -489,7 +520,11 @@ function avatarColorFor(id){
 }
 
 let state = {
-  users: [ makeUser({name:'Demo Aspirant', email:'demo@sankalp.app', password:'demo123', planA:'NDA', planB:'CDS', planC:'AFCAT'}) ],
+  users: [ makeUser({name:'Demo Aspirant', email:'demo@sankalp.app', password:'demo123', plans:[
+    {exam:'NDA', date: addDaysISO(todayISO(), 118)},
+    {exam:'CDS', date: addDaysISO(todayISO(), 205)},
+    {exam:'AFCAT', date: addDaysISO(todayISO(), 260)},
+  ]}) ],
   currentUserId: null,
 };
 
@@ -696,7 +731,7 @@ function renderSyllabus(){
           <div class="subj-name">${escapeHtml(s.name)}</div>
           <div class="subj-progress-bar"><div class="subj-progress-fill" style="width:${p}%;background:${subjColor(i)}"></div></div>
           <div class="subj-meta">${s.topics.filter(t=>t.done).length}/${s.topics.length}</div>
-          <button class="icon-btn" data-action="remove-subject" data-subject="${s.id}" title="Remove subject" onclick="event.stopPropagation()">×</button>
+          <button class="icon-btn" data-action="remove-subject" data-subject="${s.id}" title="Remove subject">×</button>
         </div>
         <div class="subj-body">
           ${topicsHtml}
@@ -757,7 +792,7 @@ function renderFitness(){
           <div class="subj-name">${escapeHtml(c.name)}</div>
           <div class="subj-progress-bar"><div class="subj-progress-fill" style="width:${p}%;background:${fitColor(i)}"></div></div>
           <div class="subj-meta">${c.topics.filter(t=>t.done).length}/${c.topics.length}</div>
-          <button class="icon-btn" data-action="remove-fitcat" data-cat="${c.id}" title="Remove category" onclick="event.stopPropagation()">×</button>
+          <button class="icon-btn" data-action="remove-fitcat" data-cat="${c.id}" title="Remove category">×</button>
         </div>
         <div class="subj-body">
           ${exHtml}
@@ -796,6 +831,72 @@ function renderFitness(){
     <div class="subj-grid">${cardsHtml || '<div class="empty">No fitness categories yet.</div>'}</div>
   `;
 }
+
+/* ============================= RENDER: PLANS & COUNTDOWN ============================= */
+function planLabel(idx){
+  return idx===0 ? 'Plan A' : 'Plan '+String.fromCharCode(65+idx); // A, B, C, D...
+}
+function countdownRowHtml(dateISO){
+  if(!dateISO){
+    return `<div class="countdown-empty">No exam date set yet</div>`;
+  }
+  return `
+    <div class="countdown-row" data-countdown-target="${dateISO}">
+      <div class="countdown-box"><b class="cd-days">--</b><span>Days</span></div>
+      <div class="countdown-box"><b class="cd-hours">--</b><span>Hrs</span></div>
+      <div class="countdown-box"><b class="cd-minutes">--</b><span>Min</span></div>
+      <div class="countdown-box"><b class="cd-seconds">--</b><span>Sec</span></div>
+    </div>
+  `;
+}
+function renderPlans(){
+  const u = cu();
+  const plans = u.plans;
+  const cardsHtml = plans.map((p, idx)=>`
+    <div class="plan-card">
+      <div class="plan-card-fields">
+        <div class="plan-tag">${planLabel(idx)}</div>
+        <select data-action="plan-exam" data-plan="${p.id}">${EXAM_OPTIONS.map(ex=>`<option ${ex===p.exam?'selected':''}>${ex}</option>`).join('')}</select>
+        <input type="date" data-action="plan-date" data-plan="${p.id}" value="${p.date||''}">
+        <button class="icon-btn" data-action="remove-plan" data-plan="${p.id}" title="Remove this plan" ${plans.length<=1?'disabled':''}>×</button>
+      </div>
+      ${countdownRowHtml(p.date)}
+    </div>
+  `).join('');
+
+  document.getElementById('view-plans').innerHTML = `
+    <div class="plans-toolbar">
+      <h2 class="section-title" style="margin:0;">Your goals — add as many backup plans as you like, each with its own countdown</h2>
+      <button class="btn primary small" id="btnAddPlan">+ Add plan</button>
+    </div>
+    <div class="plans-grid">${cardsHtml || '<div class="empty">No plans yet — add one above.</div>'}</div>
+  `;
+  tickCountdowns();
+}
+
+/* ---- live countdown ticker (runs independent of re-renders) ---- */
+function tickCountdowns(){
+  document.querySelectorAll('.countdown-row[data-countdown-target]').forEach(row=>{
+    const iso = row.dataset.countdownTarget;
+    const daysEl = row.querySelector('.cd-days'), hoursEl = row.querySelector('.cd-hours'),
+          minsEl = row.querySelector('.cd-minutes'), secsEl = row.querySelector('.cd-seconds');
+    if(!iso || !daysEl) return;
+    const target = new Date(iso+'T00:00:00').getTime();
+    const diff = target - Date.now();
+    if(diff<=0){
+      row.classList.add('expired');
+      daysEl.textContent='0'; hoursEl.textContent='00'; minsEl.textContent='00'; secsEl.textContent='00';
+      return;
+    }
+    row.classList.remove('expired');
+    const totalSec = Math.floor(diff/1000);
+    daysEl.textContent = Math.floor(totalSec/86400);
+    hoursEl.textContent = String(Math.floor((totalSec%86400)/3600)).padStart(2,'0');
+    minsEl.textContent = String(Math.floor((totalSec%3600)/60)).padStart(2,'0');
+    secsEl.textContent = String(totalSec%60).padStart(2,'0');
+  });
+}
+setInterval(tickCountdowns, 1000);
 
 /* ============================= RENDER: PLANNER ============================= */
 function subjectOptions(selectedId){
@@ -874,6 +975,7 @@ function renderAll(){
   renderSyllabus();
   renderFitness();
   renderPlanner();
+  renderPlans();
   renderProfileChip();
   if(cu()) renderProfile();
 }
@@ -899,10 +1001,12 @@ function renderProfile(){
         <div class="profile-name">${escapeHtml(u.name)}</div>
         <div class="profile-email">${escapeHtml(u.email)}</div>
         <div style="margin-top:10px;" class="rank">${rank.name}</div>
-        <div class="plan-badges">
-          <div class="plan-badge a"><span>Plan A</span><b>${escapeHtml(u.plans.a)}</b></div>
-          <div class="plan-badge b"><span>Plan B</span><b>${escapeHtml(u.plans.b)}</b></div>
-          <div class="plan-badge c"><span>Plan C</span><b>${escapeHtml(u.plans.c)}</b></div>
+        <div class="profile-nearest-plan">
+          ${(() => {
+            const upcoming = [...u.plans].filter(p=>p.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
+            if(!upcoming) return `<span>No exam dates set yet — add one in the Plans tab.</span>`;
+            return `<span>Nearest goal: <b>${escapeHtml(upcoming.exam)}</b> · ${formatDatePretty(upcoming.date)}</span>`;
+          })()}
         </div>
         <div class="profile-stats">
           <div class="profile-stat"><b>${pct}%</b><span>Readiness</span></div>
@@ -924,24 +1028,6 @@ function renderProfile(){
               <label>Full name</label>
               <input type="text" name="name" value="${escapeHtml(u.name)}" required>
             </div>
-            <div class="settings-row">
-              <label>Your three goals — all compulsory</label>
-            </div>
-            <div class="settings-grid3">
-              <div class="settings-row">
-                <label>Plan A (primary)</label>
-                <select name="planA" required>${planOptionsHtml(u.plans.a)}</select>
-              </div>
-              <div class="settings-row">
-                <label>Plan B (backup)</label>
-                <select name="planB" required>${planOptionsHtml(u.plans.b)}</select>
-              </div>
-              <div class="settings-row">
-                <label>Plan C (backup)</label>
-                <select name="planC" required>${planOptionsHtml(u.plans.c)}</select>
-              </div>
-            </div>
-            <div id="detailsError" class="auth-error" style="display:none;max-width:460px;"></div>
             <button class="btn primary small" type="submit">Save changes</button>
             <span class="save-msg" id="detailsSaveMsg"></span>
           </form>
@@ -988,7 +1074,7 @@ function renderAuth(){
   document.getElementById('view-auth').innerHTML = `
     <div class="auth-wrap">
       <div class="auth-badge"></div>
-      <div>
+      <div class="auth-title-block">
         <div class="auth-title">Sankalp</div>
         <div class="auth-sub">MISSION PREP CONSOLE — IDENTIFICATION REQUIRED</div>
       </div>
@@ -1009,19 +1095,16 @@ function renderAuth(){
           <form id="formSignup">
             <div class="auth-field"><label>Full name</label><input type="text" name="name" required></div>
             <div class="auth-field"><label>Email</label><input type="email" name="email" required autocomplete="username"></div>
-            <div class="auth-field"><label>Plan A — primary goal</label>
-              <select name="planA" required>${planOptionsHtml(null)}</select>
+            <div class="auth-field"><label>Primary target exam</label>
+              <select name="planExam" required>${planOptionsHtml(null)}</select>
             </div>
-            <div class="auth-field"><label>Plan B — backup goal</label>
-              <select name="planB" required>${planOptionsHtml(null)}</select>
-            </div>
-            <div class="auth-field"><label>Plan C — backup goal</label>
-              <select name="planC" required>${planOptionsHtml(null)}</select>
+            <div class="auth-field"><label>Exam date (if known)</label>
+              <input type="date" name="planDate">
             </div>
             <div class="auth-field"><label>Password</label><input type="password" name="password" required minlength="4" autocomplete="new-password"></div>
             <button class="btn primary block" type="submit">Create Account</button>
           </form>
-          <div class="auth-hint">All three goals are compulsory — pick a different exam for each. Already enlisted? <button id="btnGoLogin" type="button">Log in instead</button>.</div>
+          <div class="auth-hint">You can add backup plans (B, C...) and countdowns any time from the Plans tab. Already enlisted? <button id="btnGoLogin" type="button">Log in instead</button>.</div>
         `}
       </div>
       <div class="auth-sub" style="max-width:380px;">This is a browser-only demo: accounts live for the current session. Use Export/Import from your profile once logged in to keep a backup.</div>
@@ -1079,24 +1162,20 @@ document.getElementById('view-auth').addEventListener('submit', e=>{
     const fd = new FormData(e.target);
     const name = fd.get('name').trim();
     const email = fd.get('email').trim();
-    const planA = fd.get('planA'), planB = fd.get('planB'), planC = fd.get('planC');
+    const planExam = fd.get('planExam');
+    const planDate = fd.get('planDate') || '';
     const password = fd.get('password');
     if(findUserByEmail(email)){
       authError = 'An account with that email already exists — try logging in.';
       renderAuth();
       return;
     }
-    if(!planA || !planB || !planC){
-      authError = 'Plan A, Plan B and Plan C are all compulsory — please pick an exam for each.';
+    if(!planExam){
+      authError = 'Please choose a primary target exam to get started.';
       renderAuth();
       return;
     }
-    if(planA===planB || planB===planC || planA===planC){
-      authError = 'Plan A, Plan B and Plan C must each be a different exam.';
-      renderAuth();
-      return;
-    }
-    const u = makeUser({name, email, password, planA, planB, planC});
+    const u = makeUser({name, email, password, plans:[{exam:planExam, date:planDate}]});
     state.users.push(u);
     state.currentUserId = u.id;
     authError='';
@@ -1128,21 +1207,7 @@ document.getElementById('view-profile').addEventListener('submit', e=>{
   if(e.target.id==='formProfileDetails'){
     e.preventDefault();
     const fd = new FormData(e.target);
-    const errBox = document.getElementById('detailsError');
-    const planA = fd.get('planA'), planB = fd.get('planB'), planC = fd.get('planC');
-    if(!planA || !planB || !planC){
-      errBox.textContent = 'Plan A, Plan B and Plan C are all compulsory — please pick an exam for each.';
-      errBox.style.display='block';
-      return;
-    }
-    if(planA===planB || planB===planC || planA===planC){
-      errBox.textContent = 'Plan A, Plan B and Plan C must each be a different exam.';
-      errBox.style.display='block';
-      return;
-    }
-    errBox.style.display='none';
     u.name = fd.get('name').trim() || u.name;
-    u.plans = { a:planA, b:planB, c:planC };
     renderProfile();
     renderProfileChip();
     document.getElementById('detailsSaveMsg').textContent = 'Saved.';
@@ -1183,13 +1248,6 @@ document.getElementById('profileChip').addEventListener('click', ()=>{
 
 /* ============================= SYLLABUS EVENTS ============================= */
 document.getElementById('view-syllabus').addEventListener('click', e=>{
-  const head = e.target.closest('[data-action="toggle-subject"]');
-  if(head){
-    const id = head.dataset.subject;
-    cu().ui.openSubjects[id] = !cu().ui.openSubjects[id];
-    renderSyllabus();
-    return;
-  }
   const rmSubj = e.target.closest('[data-action="remove-subject"]');
   if(rmSubj){
     const id = rmSubj.dataset.subject;
@@ -1200,6 +1258,13 @@ document.getElementById('view-syllabus').addEventListener('click', e=>{
       cu().days.forEach(d=>{ d.slots = d.slots.filter(sl=>sl.subjectId!==id); });
       renderAll();
     }
+    return;
+  }
+  const head = e.target.closest('[data-action="toggle-subject"]');
+  if(head){
+    const id = head.dataset.subject;
+    cu().ui.openSubjects[id] = !cu().ui.openSubjects[id];
+    renderSyllabus();
     return;
   }
   const rmTopic = e.target.closest('[data-action="remove-topic"]');
@@ -1271,13 +1336,6 @@ document.getElementById('view-syllabus').addEventListener('keydown', e=>{
 
 /* ============================= FITNESS EVENTS ============================= */
 document.getElementById('view-fitness').addEventListener('click', e=>{
-  const head = e.target.closest('[data-action="toggle-fitcat"]');
-  if(head){
-    const id = head.dataset.cat;
-    cu().ui.openFitness[id] = !cu().ui.openFitness[id];
-    renderFitness();
-    return;
-  }
   const rmCat = e.target.closest('[data-action="remove-fitcat"]');
   if(rmCat){
     const id = rmCat.dataset.cat;
@@ -1286,6 +1344,13 @@ document.getElementById('view-fitness').addEventListener('click', e=>{
       cu().fitness = cu().fitness.filter(c=>c.id!==id);
       renderAll();
     }
+    return;
+  }
+  const head = e.target.closest('[data-action="toggle-fitcat"]');
+  if(head){
+    const id = head.dataset.cat;
+    cu().ui.openFitness[id] = !cu().ui.openFitness[id];
+    renderFitness();
     return;
   }
   const rmEx = e.target.closest('[data-action="remove-fitex"]');
@@ -1416,6 +1481,39 @@ document.getElementById('view-planner').addEventListener('submit', e=>{
   renderAll();
 });
 
+/* ============================= PLANS EVENTS ============================= */
+document.getElementById('view-plans').addEventListener('click', e=>{
+  if(e.target.id==='btnAddPlan'){
+    const used = new Set(cu().plans.map(p=>p.exam));
+    const nextExam = EXAM_OPTIONS.find(ex=>!used.has(ex)) || EXAM_OPTIONS[0];
+    cu().plans.push({id:uid(), exam:nextExam, date:''});
+    renderPlans();
+    return;
+  }
+  const rm = e.target.closest('[data-action="remove-plan"]');
+  if(rm){
+    if(cu().plans.length<=1) return;
+    if(confirm('Remove this plan and its countdown?')){
+      cu().plans = cu().plans.filter(p=>p.id!==rm.dataset.plan);
+      renderPlans();
+      renderProfile();
+    }
+  }
+});
+document.getElementById('view-plans').addEventListener('change', e=>{
+  const examSel = e.target.closest('[data-action="plan-exam"]');
+  if(examSel){
+    const p = cu().plans.find(x=>x.id===examSel.dataset.plan);
+    if(p){ p.exam = examSel.value; renderProfile(); }
+    return;
+  }
+  const dateInput = e.target.closest('[data-action="plan-date"]');
+  if(dateInput){
+    const p = cu().plans.find(x=>x.id===dateInput.dataset.plan);
+    if(p){ p.date = dateInput.value; renderPlans(); renderProfile(); }
+  }
+});
+
 /* ============================= EXPORT / IMPORT / RESET ============================= */
 document.getElementById('btnExport').addEventListener('click', ()=>{
   const u = cu();
@@ -1445,6 +1543,9 @@ document.getElementById('fileImport').addEventListener('change', e=>{
         u.subjects = parsed.subjects;
         u.days = parsed.days;
         u.fitness = parsed.fitness || seedUserData().fitness;
+        if(Array.isArray(parsed.plans) && parsed.plans.length){
+          u.plans = parsed.plans.map(p=>({id:p.id||uid(), exam:p.exam, date:p.date||''}));
+        }
         u.ui = {openSubjects:{}, openFitness:{}, addingTopicFor:null};
         renderAll();
         alert('Data imported successfully.');
