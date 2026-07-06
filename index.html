@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SANKALP — Mission Prep Console</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8IS0tIGJhY2tpbmcgZGlzYyBzbyB0aGUgbWFyayByZWFkcyBvbiBhbnkgdGFiL2JhY2tncm91bmQgY29sb3VyIC0tPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSIjMTIxNjEzIi8+CgogIDwhLS0gcmV0aWNsZSByaW5ncyAtLT4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMjI3IiBzdHJva2Utd2lkdGg9IjMuMiIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMzIiBmaWxsPSJub25lIiBzdHJva2U9IiM0YjVkM2EiIHN0cm9rZS13aWR0aD0iMiIvPgoKICA8IS0tIGNyb3NzaGFpciB0aWNrcyAtLT4KICA8ZyBzdHJva2U9IiNjOWEyMjciIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgogICAgPGxpbmUgeDE9IjUwIiB5MT0iMiIgIHgyPSI1MCIgeTI9IjkiLz4KICAgIDxsaW5lIHgxPSI1MCIgeTE9IjkxIiB4Mj0iNTAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjIiICB5MT0iNTAiIHgyPSI5IiAgeTI9IjUwIi8+CiAgICA8bGluZSB4MT0iOTEiIHkxPSI1MCIgeDI9Ijk4IiB5Mj0iNTAiLz4KICA8L2c+CgogIDwhLS0gcmlzaW5nIGFycm93OiByZXNvbHZlIC8gZm9yd2FyZCBtb21lbnR1bSAtLT4KICA8cGF0aCBkPSJNNTAgNDAgTDY0IDYwIEw1NiA2MCBMNTYgNzQgTDQ0IDc0IEw0NCA2MCBMMzYgNjAgWiIgZmlsbD0iI2M5YTIyNyIvPgoKICA8IS0tIGdvYWwgc3RhciAtLT4KICA8cG9seWdvbiBwb2ludHM9IjUwLjAwLDE0LjUwIDUxLjU5LDE4LjgyIDU2LjE4LDE4Ljk5IDUyLjU3LDIxLjgzIDUzLjgyLDI2LjI2IDUwLjAwLDIzLjcwIDQ2LjE4LDI2LjI2IDQ3LjQzLDIxLjgzIDQzLjgyLDE4Ljk5IDQ4LjQxLDE4LjgyIiBmaWxsPSIjYzlhMjI3Ii8+Cjwvc3ZnPgo=">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8IS0tIGJhY2tpbmcgZGlzYyBzbyB0aGUgbWFyayByZWFkcyBvbiBhbnkgdGFiL2JhY2tncm91bmQgY29sb3VyIC0tPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSIjMTIxNjEzIi8+CgogIDwhLS0gcmV0aWNsZSByaW5ncyAtLT4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMjI3IiBzdHJva2Utd2lkdGg9IjMuMiIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMzIiBmaWxsPSJub25lIiBzdHJva2U9IiM0YjVkM2EiIHN0cm9rZS13aWR0aD0iMiIvPgoKICA8IS0tIGNyb3NzaGFpciB0aWNrcyAtLT4KICA8ZyBzdHJva2U9IiNjOWEyMjciIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgogICAgPGxpbmUgeDE9IjUwIiB5MT0iMiIgIHgyPSI1MCIgeTI9IjkiLz4KICAgIDxsaW5lIHgxPSI1MCIgeTE9IjkxIiB4Mj0iNTAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjIiICB5MT0iNTAiIHgyPSI5IiAgeTI9IjUwIi8+CiAgICA8bGluZSB4MT0iOTEiIHkxPSI1MCIgeDI9Ijk4IiB5Mj0iNTAiLz4KICA8L2c+CgogIDwhLS0gcmlzaW5nIGFycm93OiByZXNvbHZlIC8gZm9yd2FyZCBtb21lbnR1bSAtLT4KICA8cGF0aCBkPSJNNTAgNDAgTDY0IDYwIEw1NiA2MCBMNTYgNzQgTDQ0IDc0IEw0NCA2MCBMMzYgNjAgWiIgZmlsbD0iI2M5YTIyNyIvPgoKICA8IS0tIGdvYWwgc3RhciAtLT4KICA8cG9seWdvbiBwb2ludHM9IjUwLjAwLDE0LjUwIDUxLjU5LDE4LjgyIDU2LjE4LDE4Ljk5IDUyLjU3LDIxLjgzIDUzLjgyLDI2LjI2IDUwLjAwLDIzLjcwIDQ2LjE4LDI2LjI2IDQ3LjQzLDIxLjgzIDQzLjgyLDE4Ljk5IDQ4LjQxLDE4LjgyIiBmaWxsPSIjYzlhMjI3Ii8+Cjwvc3ZnPgo=">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -50,13 +53,9 @@
   .top-inner{max-width:1180px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:16px;}
   .brand{display:flex;align-items:center;gap:12px;}
   .brand-mark{
-    width:38px;height:38px;border:2px solid var(--brass);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;position:relative;flex:none;
+    width:38px;height:38px;display:flex;align-items:center;justify-content:center;flex:none;
   }
-  .brand-mark::before{content:'';position:absolute;width:6px;height:6px;background:var(--brass);border-radius:50%;}
-  .brand-mark::after{
-    content:'';position:absolute;inset:6px;border:1px solid var(--brass-dim);border-radius:50%;
-  }
+  .brand-mark svg{width:100%;height:100%;}
   .brand-text .kicker{font-size:10px;letter-spacing:0.28em;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
   .brand-text h1{font-size:26px;margin:0;font-weight:600;letter-spacing:0.06em;}
   .brand-text h1 span{color:var(--brass);}
@@ -116,6 +115,19 @@
   input[type=checkbox]{accent-color:var(--brass);width:16px;height:16px;cursor:pointer;}
 
   /* ===== Dashboard ===== */
+  .quote-banner{
+    background:linear-gradient(90deg, rgba(201,162,39,0.08), transparent);
+    border:1px solid var(--border-dim);border-left:3px solid var(--brass);border-radius:var(--radius);
+    padding:14px 20px;margin-bottom:22px;
+  }
+  .quote-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;
+    color:var(--brass);margin-bottom:6px;
+  }
+  .quote-text{font-family:'Oswald',sans-serif;font-weight:400;font-size:16px;letter-spacing:0.02em;
+    color:var(--text);font-style:italic;text-transform:none;}
+  .quote-author{margin-top:8px;font-size:12px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;letter-spacing:0.03em;}
+  .quote-author span{color:var(--text-faint);}
   .dash-grid{display:grid;grid-template-columns:280px 1fr;gap:24px;}
   @media(max-width:760px){.dash-grid{grid-template-columns:1fr;}}
 
@@ -244,9 +256,9 @@
   footer.foot{text-align:center;color:var(--text-faint);font-size:11px;padding:30px 0 0;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;}
   .foot-credit{margin-top:8px;font-size:10.5px;color:var(--text-faint);letter-spacing:0.06em;}
   .foot-credit span{color:var(--brass-dim);}
-  .foot-contact{margin-top:10px;}
-  .foot-contact a{color:var(--brass);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.06em;}
-  .foot-contact a:hover{text-decoration:underline;}
+  .foot-contact{margin-top:4px;font-size:10.5px;color:var(--text-faint);letter-spacing:0.06em;}
+  .foot-contact a{color:var(--brass-dim);text-decoration:none;}
+  .foot-contact a:hover{color:var(--brass);text-decoration:underline;}
 
   /* ===== Profile chip (header) ===== */
   .profile-chip{
@@ -262,12 +274,8 @@
 
   /* ===== Auth screen ===== */
   .auth-wrap{max-width:420px;margin:60px auto;display:flex;flex-direction:column;align-items:center;gap:22px;}
-  .auth-badge{
-    width:56px;height:56px;border:2px solid var(--brass);border-radius:50%;position:relative;
-  }
-  .auth-badge::before{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;background:var(--brass);
-    border-radius:50%;transform:translate(-50%,-50%);}
-  .auth-badge::after{content:'';position:absolute;inset:9px;border:1px solid var(--brass-dim);border-radius:50%;}
+  .auth-badge{width:64px;height:64px;}
+  .auth-badge svg{width:100%;height:100%;}
   .auth-title-block{display:flex;flex-direction:column;align-items:center;gap:8px;}
   .auth-title{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;text-align:center;line-height:1.2;}
   .auth-sub{font-size:12.5px;color:var(--text-faint);text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;line-height:1.5;}
@@ -372,6 +380,38 @@
     border:1px solid var(--border-dim);border-radius:var(--radius);
   }
   .profile-nearest-plan b{color:var(--brass);}
+
+  /* ===== Eligibility ===== */
+  .elig-inputs{
+    display:flex;flex-wrap:wrap;gap:20px;background:var(--panel);border:1px solid var(--border-dim);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;align-items:flex-end;
+  }
+  .elig-inputs .settings-row{margin-bottom:0;}
+  .elig-age-banner{
+    font-size:13px;color:var(--text-dim);background:var(--bg-2);border:1px solid var(--border-dim);
+    border-radius:var(--radius);padding:10px 14px;margin-bottom:18px;
+  }
+  .elig-age-banner b{color:var(--brass);font-family:'Oswald',sans-serif;font-weight:600;}
+  .elig-grid{display:flex;flex-direction:column;gap:14px;}
+  .elig-card{
+    background:var(--panel);border:1px solid var(--border-dim);border-radius:var(--radius);
+    padding:18px 20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;
+  }
+  .elig-card.eligible{border-color:var(--olive-light);}
+  .elig-card.notyet{border-color:var(--brass-dim);}
+  .elig-card.expired{border-color:var(--red-dim);}
+  .elig-card-left{display:flex;flex-direction:column;gap:3px;}
+  .elig-exam-name{font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:0.03em;}
+  .elig-range{font-size:11.5px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;}
+  .elig-status{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+    padding:5px 12px;border-radius:20px;flex:none;
+  }
+  .elig-status.eligible{background:rgba(110,139,61,0.18);color:var(--olive-light);border:1px solid var(--olive);}
+  .elig-status.notyet{background:rgba(201,162,39,0.14);color:var(--brass);border:1px solid var(--brass-dim);}
+  .elig-status.expired{background:rgba(181,69,59,0.14);color:#e0a49e;border:1px solid var(--red-dim);}
+  .elig-detail{font-size:12.5px;color:var(--text-dim);flex-basis:100%;}
+  .elig-note{font-size:11.5px;color:var(--text-faint);margin-top:16px;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -379,7 +419,19 @@
 <header class="top">
   <div class="top-inner">
     <div class="brand">
-      <div class="brand-mark"></div>
+      <div class="brand-mark">
+        <svg viewBox="0 0 100 100" width="38" height="38">
+          <circle cx="50" cy="50" r="48" fill="#121613"/>
+          <circle cx="50" cy="50" r="43" fill="none" stroke="#c9a227" stroke-width="3.2"/>
+          <circle cx="50" cy="50" r="33" fill="none" stroke="#4b5d3a" stroke-width="2"/>
+          <g stroke="#c9a227" stroke-width="3.2" stroke-linecap="round">
+            <line x1="50" y1="2" x2="50" y2="9"/><line x1="50" y1="91" x2="50" y2="98"/>
+            <line x1="2" y1="50" x2="9" y2="50"/><line x1="91" y1="50" x2="98" y2="50"/>
+          </g>
+          <path d="M50 40 L64 60 L56 60 L56 74 L44 74 L44 60 L36 60 Z" fill="#c9a227"/>
+          <polygon points="50.00,14.50 51.59,18.82 56.18,18.99 52.57,21.83 53.82,26.26 50.00,23.70 46.18,26.26 47.43,21.83 43.82,18.99 48.41,18.82" fill="#c9a227"/>
+        </svg>
+      </div>
       <div class="brand-text">
         <div class="kicker">MISSION PREP CONSOLE</div>
         <h1>SANKALP<span>.</span></h1>
@@ -398,6 +450,7 @@
       <button data-view="dashboard" class="active">Dashboard</button>
       <button data-view="syllabus">Syllabus &amp; Tracker</button>
       <button data-view="fitness">Fitness</button>
+      <button data-view="eligibility">Eligibility</button>
       <button data-view="planner">Day-wise Planner</button>
       <button data-view="plans">Plans &amp; Countdown</button>
       <button data-view="profile">Profile</button>
@@ -411,6 +464,7 @@
     <section class="view active" id="view-dashboard"></section>
     <section class="view" id="view-syllabus"></section>
     <section class="view" id="view-fitness"></section>
+    <section class="view" id="view-eligibility"></section>
     <section class="view" id="view-planner"></section>
     <section class="view" id="view-plans"></section>
     <section class="view" id="view-profile"></section>
@@ -418,7 +472,7 @@
   <footer class="foot">
     DISCIPLINE · CONSISTENCY · SANKALP
     <div class="foot-credit">© <span id="footYear"></span> Sankalp. Web made by KARTIK.X.7</div>
-    <div class="foot-contact"><a href="mailto:admin@sankalp24x7.online">Contact: admin@sankalp24x7.online</a></div>
+    <div class="foot-contact">Contact: <a href="mailto:admin@sanklap24x7.online">admin@sanklap24x7.online</a></div>
   </footer>
 </div>
 
@@ -426,94 +480,102 @@
 /* ============================= STATE ============================= */
 const PALETTE = ['#c9a227','#6e8b3d','#8a6a4b','#5c7a8a','#b5453b','#9c8c5c','#4b5d3a','#7d5a8a'];
 
+/* Daily briefing quotes, keyed by JS Date.getDay() (0=Sunday ... 6=Saturday) */
+const MOTIVATIONAL_QUOTES = {
+  1: { day:'Monday',
+       text:"कर्म वही करो जो करना ही फल लगे",
+       author:"Major Vivek Jacob", unit:"9 PARA SF" },
+  2: { day:'Tuesday',
+       text:"I won't die in an accident or die of any disease. I will go down in glory.",
+       author:"Major Sudhir Kumar Walia, AC, SM", unit:"9 PARA SF" },
+  3: { day:'Wednesday',
+       text:"If you sweat more in peace, you bleed less in war.",
+       author:"General Bipin Rawat", unit:"Chief of Defence Staff" },
+  4: { day:'Thursday',
+       text:"The safety, honour & welfare of your country comes first, always & every time. The honour, welfare & comfort of the men you command, come next. Your own ease, comfort & safety come last, always & every time.",
+       author:"Field Marshal Sam Manekshaw", unit:"" },
+  5: { day:'Friday',
+       text:"Commitment to duty is greater than any personal desire or comfort.",
+       author:"Major Sandeep Unnikrishnan, AC", unit:"51 SAG, NSG" },
+  6: { day:'Saturday',
+       text:"The enemy is not merely across the border. It is all around us, in the form of corruption, poverty, illiteracy, and communal disharmony.",
+       author:"General Bipin Rawat", unit:"Chief of Defence Staff" },
+  0: { day:'Sunday',
+       text:"If death strikes before I prove my blood, I swear, I will kill death.",
+       author:"Captain Manoj Kumar Pandey, PVC", unit:"11 GR" },
+};
+
 function uid(){ return Math.random().toString(36).slice(2,10); }
 
 function seedUserData(){
-  const subjects = [
-    { id: uid(), name: 'Mathematics', topics: [
-      {id:uid(), name:'Number System & Algebra', done:true},
-      {id:uid(), name:'Trigonometry', done:true},
-      {id:uid(), name:'Geometry & Mensuration', done:false},
-      {id:uid(), name:'Statistics & Probability', done:false},
-      {id:uid(), name:'Basic Calculus', done:false},
-    ]},
-    { id: uid(), name:'General Science', topics: [
-      {id:uid(), name:'Physics Fundamentals', done:true},
-      {id:uid(), name:'Chemistry Fundamentals', done:false},
-      {id:uid(), name:'Biology & Human Body', done:false},
-    ]},
-    { id: uid(), name:'History & Geography', topics: [
-      {id:uid(), name:'Ancient & Medieval India', done:false},
-      {id:uid(), name:'Modern India & Freedom Struggle', done:false},
-      {id:uid(), name:'Indian Geography', done:true},
-      {id:uid(), name:'World Geography', done:false},
-    ]},
-    { id: uid(), name:'Current Affairs', topics: [
-      {id:uid(), name:'National Affairs', done:false},
-      {id:uid(), name:'International Affairs', done:false},
-      {id:uid(), name:'Defence & Security News', done:false},
-    ]},
-    { id: uid(), name:'English', topics: [
-      {id:uid(), name:'Grammar & Usage', done:true},
-      {id:uid(), name:'Comprehension', done:false},
-      {id:uid(), name:'Vocabulary: Synonyms/Antonyms', done:false},
-    ]},
-    { id: uid(), name:'Reasoning & Defence GK', topics: [
-      {id:uid(), name:'Logical & Verbal Reasoning', done:false},
-      {id:uid(), name:'Static GK', done:false},
-      {id:uid(), name:'Ranks, Ops & Awards', done:false},
-    ]},
-  ];
-
-  const fitness = [
-    { id: uid(), name:'Cardio & Endurance', topics: [
-      {id:uid(), name:'1.6km Run (under 6:30)', done:true},
-      {id:uid(), name:'2.4km Run (under 10:30)', done:false},
-      {id:uid(), name:'Skipping — 10 min', done:false},
-    ]},
-    { id: uid(), name:'Strength', topics: [
-      {id:uid(), name:'Push-ups (3x20)', done:true},
-      {id:uid(), name:'Sit-ups (3x20)', done:false},
-      {id:uid(), name:'Pull-ups (3x8)', done:false},
-      {id:uid(), name:'Squats (3x25)', done:false},
-    ]},
-    { id: uid(), name:'Mobility & Extras', topics: [
-      {id:uid(), name:'Swimming — 500m', done:false},
-      {id:uid(), name:'Rope climbing', done:false},
-      {id:uid(), name:'Stretching & recovery', done:true},
-    ]},
-  ];
-
-  const s = subjects;
-  const days = [
-    { id: uid(), date: todayISO(), slots:[
-      {id:uid(), time:'07:00', subjectId:s[0].id, topicId:s[0].topics[0].id, duration:90, note:'', done:true},
-      {id:uid(), time:'17:00', subjectId:s[3].id, topicId:s[3].topics[0].id, duration:45, note:'Newspaper + notes', done:false},
-    ]},
-    { id: uid(), date: addDaysISO(todayISO(),1), slots:[
-      {id:uid(), time:'07:00', subjectId:s[1].id, topicId:s[1].topics[0].id, duration:90, note:'', done:false},
-      {id:uid(), time:'18:00', subjectId:s[4].id, topicId:s[4].topics[0].id, duration:60, note:'', done:false},
-    ]},
-  ];
-
-  return { subjects, fitness, days, ui:{ openSubjects:{}, openFitness:{}, addingTopicFor:null } };
-}
-
-/* ---- blank slate for real (non-demo) accounts: no pre-filled subjects/fitness/days ---- */
-function emptyUserData(){
-  return { subjects: [], fitness: [], days: [], ui:{ openSubjects:{}, openFitness:{}, addingTopicFor:null } };
+  return {
+    subjects: [],
+    fitness: [],
+    days: [],
+    ui:{ openSubjects:{}, openFitness:{}, addingTopicFor:null }
+  };
 }
 
 /* ============================= ACCOUNTS / AUTH ============================= */
 const EXAM_OPTIONS = ['NDA 1','NDA 2','CDS 1','CDS 2','AFCAT 1','AFCAT 2','CAPF','SSB / Other'];
+const EXAM_AGE_LIMITS = {
+  'NDA': { min: 15.5, max: 18.5 },
+  'CDS': { min: 18,   max: 23   },
+  'AFCAT': {
+    branches: {
+      'Flying Branch': { min: 19, max: 23 },
+      'Ground Duty (Technical & Non-Technical)': { min: 19, max: 25 },
+    }
+  },
+};
 
-function makeUser({name, email, password, plans, seed=false}){
+/* ---- age / date-of-birth math ---- */
+function decimalYearsToYM(dec){
+  const years = Math.floor(dec);
+  const months = Math.round((dec - years) * 12);
+  return { years, months };
+}
+function addYearsMonthsToDate(dobISO, years, months){
+  const d = new Date(dobISO+'T00:00:00');
+  d.setFullYear(d.getFullYear() + years);
+  d.setMonth(d.getMonth() + months);
+  const off = d.getTimezoneOffset();
+  const local = new Date(d.getTime() - off*60000);
+  return local.toISOString().slice(0,10);
+}
+function dateAtDecimalAge(dobISO, decYears){
+  const {years, months} = decimalYearsToYM(decYears);
+  return addYearsMonthsToDate(dobISO, years, months);
+}
+function ageBreakdown(dobISO, refISO){
+  const dob = new Date(dobISO+'T00:00:00');
+  const ref = new Date(refISO+'T00:00:00');
+  let years = ref.getFullYear() - dob.getFullYear();
+  let months = ref.getMonth() - dob.getMonth();
+  let days = ref.getDate() - dob.getDate();
+  if(days < 0){
+    months--;
+    const prevMonthLastDay = new Date(ref.getFullYear(), ref.getMonth(), 0).getDate();
+    days += prevMonthLastDay;
+  }
+  if(months < 0){ years--; months += 12; }
+  return { years, months, days };
+}
+function formatYM(years, months){
+  const parts = [];
+  if(years) parts.push(years + (years===1?' year':' years'));
+  parts.push(months + (months===1?' month':' months'));
+  return parts.join(', ');
+}
+
+function makeUser({name, email, password, plans}){
   return {
     id: uid(),
     name, email: email.toLowerCase(), password,
     plans: (plans && plans.length ? plans : [{exam:EXAM_OPTIONS[0], date:''}]).map(p=>({id:uid(), exam:p.exam, date:p.date||''})),
     joinDate: todayISO(),
-    ...(seed ? seedUserData() : emptyUserData())
+    dob: '', eligibilityRef: '',
+    ...seedUserData()
   };
 }
 function findUserByEmail(email){
@@ -528,50 +590,14 @@ function avatarColorFor(id){
   return PALETTE[h];
 }
 
-const STORAGE_KEY = 'sankalp-state-v1';
-
-/*
-  NOTE (fix): this app is fully local — it says so right on the login screen
-  ("Your account and study data are saved locally in this browser"). It used
-  to also call out to http://127.0.0.1:8000 for login/signup/save, but no such
-  server ships with this file, so that endpoint never exists for a real user.
-  That silently broke real sign up and log in (only the "jump in instantly"
-  demo shortcut worked, since it was the only path that skipped the API call).
-  Auth and persistence are now handled entirely with localStorage, matching
-  what the UI already promises.
-*/
-
-function defaultState(){
-  return {
-    users: [ makeUser({name:'Demo Aspirant', email:'demo@sankalp.app', password:'demo123', seed:true, plans:[
-      {exam:'NDA 1', date: addDaysISO(todayISO(), 118)},
-      {exam:'CDS 1', date: addDaysISO(todayISO(), 205)},
-      {exam:'AFCAT 1', date: addDaysISO(todayISO(), 260)},
-    ]}) ],
-    currentUserId: null,
-  };
-}
-
-function loadState(){
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(!saved) return defaultState();
-    const parsed = JSON.parse(saved);
-    const users = Array.isArray(parsed.users) ? parsed.users : defaultState().users;
-    const currentUserId = users.find(u=>u.id===parsed.currentUserId) ? parsed.currentUserId : null;
-    return { users, currentUserId };
-  } catch {
-    return defaultState();
-  }
-}
-
-function saveState(){
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {}
-}
-
-let state = loadState();
+let state = {
+  users: [ makeUser({name:'Demo Aspirant', email:'demo@sankalp.app', password:'demo123', plans:[
+    {exam:'NDA 1', date: addDaysISO(todayISO(), 118)},
+    {exam:'CDS 2', date: addDaysISO(todayISO(), 205)},
+    {exam:'AFCAT 2', date: addDaysISO(todayISO(), 260)},
+  ]}) ],
+  currentUserId: null,
+};
 
 /* ============================= HELPERS ============================= */
 function subjColor(idx){ return PALETTE[idx % PALETTE.length]; }
@@ -728,7 +754,14 @@ function renderDashboard(){
     }
   }
 
+  const todayQuote = MOTIVATIONAL_QUOTES[new Date().getDay()];
+
   document.getElementById('view-dashboard').innerHTML = `
+    <div class="quote-banner">
+      <div class="quote-tag">${escapeHtml(todayQuote.day)} · DAILY BRIEFING</div>
+      <div class="quote-text">“${escapeHtml(todayQuote.text)}”</div>
+      <div class="quote-author">— ${escapeHtml(todayQuote.author)}${todayQuote.unit ? ' <span>('+escapeHtml(todayQuote.unit)+')</span>' : ''}</div>
+    </div>
     <div class="dash-grid">
       <div>
         <div class="dial-card">
@@ -877,7 +910,7 @@ function renderFitness(){
   `;
 }
 
-/* ============================= RENDER: COUNTDOWN ============================= */
+/* ============================= RENDER: PLANS & COUNTDOWN ============================= */
 function planLabel(idx){
   return idx===0 ? 'Plan A' : 'Plan '+String.fromCharCode(65+idx); // A, B, C, D...
 }
@@ -942,6 +975,90 @@ function tickCountdowns(){
   });
 }
 setInterval(tickCountdowns, 1000);
+
+/* ============================= RENDER: ELIGIBILITY ============================= */
+function eligibilityRows(){
+  const rows = [];
+  Object.entries(EXAM_AGE_LIMITS).forEach(([exam, cfg])=>{
+    if(cfg.branches){
+      Object.entries(cfg.branches).forEach(([branchName, range])=>{
+        rows.push({ label: `${exam} — ${branchName}`, min: range.min, max: range.max });
+      });
+    } else {
+      rows.push({ label: exam, min: cfg.min, max: cfg.max });
+    }
+  });
+  return rows;
+}
+function renderEligibility(){
+  const u = cu();
+  const dob = u.dob || '';
+  const ref = u.eligibilityRef || todayISO();
+
+  let bodyHtml;
+  if(!dob){
+    bodyHtml = `<div class="empty">Enter your date of birth above to check eligibility.</div>`;
+  } else {
+    const age = ageBreakdown(dob, ref);
+    const cardsHtml = eligibilityRows().map(row=>{
+      const minDate = dateAtDecimalAge(dob, row.min);
+      const maxDate = dateAtDecimalAge(dob, row.max);
+      let status, statusClass, detail;
+      if(ref < minDate){
+        status = 'Not yet eligible'; statusClass = 'notyet';
+        detail = `You'll become eligible on <b>${formatDatePretty(minDate)}</b>.`;
+      } else if(ref > maxDate){
+        status = 'No longer eligible'; statusClass = 'expired';
+        detail = `You crossed the upper age limit on <b>${formatDatePretty(maxDate)}</b>.`;
+      } else {
+        status = 'Eligible'; statusClass = 'eligible';
+        detail = `You remain eligible until <b>${formatDatePretty(maxDate)}</b>.`;
+      }
+      const minYM = decimalYearsToYM(row.min), maxYM = decimalYearsToYM(row.max);
+      return `
+        <div class="elig-card ${statusClass}">
+          <div class="elig-card-left">
+            <div class="elig-exam-name">${escapeHtml(row.label)}</div>
+            <div class="elig-range">Age window: ${formatYM(minYM.years,minYM.months)} — ${formatYM(maxYM.years,maxYM.months)}</div>
+          </div>
+          <div class="elig-status ${statusClass}">${status}</div>
+          <div class="elig-detail">${detail}</div>
+        </div>
+      `;
+    }).join('');
+
+    bodyHtml = `
+      <div class="elig-age-banner">
+        As on ${formatDatePretty(ref)}${ref===todayISO()?' (today)':''}, you are <b>${formatYM(age.years, age.months)}</b> and ${age.days} day${age.days===1?'':'s'} old.
+      </div>
+      <div class="elig-grid">${cardsHtml}</div>
+      <div class="elig-note">
+        Age windows shown are the ones you've set for this tracker — NDA 15y6m–18y6m, CDS 18–23 years,
+        AFCAT Flying Branch 19–23 years, AFCAT Ground Duty (Technical &amp; Non-Technical) 19–25 years — all age limits
+        as applicable when filling the application form. Official notifications sometimes tweak these slightly and
+        calculate age "as on" a specific cutoff date rather than today — always cross-check against the latest
+        official notification before relying on this for a real application. CAPF and SSB / Other don't have a fixed
+        age window configured here yet.
+      </div>
+    `;
+  }
+
+  document.getElementById('view-eligibility').innerHTML = `
+    <h2 class="section-title">Eligibility calculator — check your age against exam age limits</h2>
+    <div class="elig-inputs">
+      <div class="settings-row">
+        <label>Date of birth</label>
+        <input type="date" id="eligDob" value="${dob}">
+      </div>
+      <div class="settings-row">
+        <label>Check eligibility as on</label>
+        <input type="date" id="eligRef" value="${ref}">
+      </div>
+      <button class="btn small ghost" id="btnEligToday">Use today</button>
+    </div>
+    ${bodyHtml}
+  `;
+}
 
 /* ============================= RENDER: PLANNER ============================= */
 function subjectOptions(selectedId){
@@ -1019,11 +1136,11 @@ function renderAll(){
   renderDashboard();
   renderSyllabus();
   renderFitness();
+  renderEligibility();
   renderPlanner();
   renderPlans();
   renderProfileChip();
   if(cu()) renderProfile();
-  saveState();
 }
 
 /* ============================= RENDER: PROFILE CHIP ============================= */
@@ -1119,7 +1236,19 @@ function renderAuth(){
   const isLogin = authMode === 'login';
   document.getElementById('view-auth').innerHTML = `
     <div class="auth-wrap">
-      <div class="auth-badge"></div>
+      <div class="auth-badge">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" fill="#121613"/>
+          <circle cx="50" cy="50" r="43" fill="none" stroke="#c9a227" stroke-width="3.2"/>
+          <circle cx="50" cy="50" r="33" fill="none" stroke="#4b5d3a" stroke-width="2"/>
+          <g stroke="#c9a227" stroke-width="3.2" stroke-linecap="round">
+            <line x1="50" y1="2" x2="50" y2="9"/><line x1="50" y1="91" x2="50" y2="98"/>
+            <line x1="2" y1="50" x2="9" y2="50"/><line x1="91" y1="50" x2="98" y2="50"/>
+          </g>
+          <path d="M50 40 L64 60 L56 60 L56 74 L44 74 L44 60 L36 60 Z" fill="#c9a227"/>
+          <polygon points="50.00,14.50 51.59,18.82 56.18,18.99 52.57,21.83 53.82,26.26 50.00,23.70 46.18,26.26 47.43,21.83 43.82,18.99 48.41,18.82" fill="#c9a227"/>
+        </svg>
+      </div>
       <div class="auth-title-block">
         <div class="auth-title">Sankalp</div>
         <div class="auth-sub">MISSION PREP CONSOLE — IDENTIFICATION REQUIRED</div>
@@ -1153,7 +1282,7 @@ function renderAuth(){
           <div class="auth-hint">You can add backup plans (B, C...) and countdowns any time from the Plans tab. Already enlisted? <button id="btnGoLogin" type="button">Log in instead</button>.</div>
         `}
       </div>
-      <div class="auth-sub" style="max-width:380px;">Your account and study data are saved locally in this browser, so you can return later and sign in again.</div>
+      <div class="auth-sub" style="max-width:380px;">This is a browser-only demo: accounts live for the current session. Use Export/Import from your profile once logged in to keep a backup.</div>
     </div>
   `;
 }
@@ -1174,7 +1303,6 @@ function renderShell(){
     document.querySelector('#tabs button[data-view="dashboard"]').classList.add('active');
     document.getElementById('view-dashboard').classList.add('active');
   }
-  saveState();
 }
 renderShell();
 document.getElementById('footYear').textContent = new Date().getFullYear();
@@ -1197,14 +1325,13 @@ document.getElementById('view-auth').addEventListener('submit', e=>{
     const email = fd.get('email'), password = fd.get('password');
     const u = findUserByEmail(email);
     if(!u || u.password !== password){
-      authError = 'Invalid email or password.';
+      authError = 'No match found for that email and password.';
       renderAuth();
       return;
     }
     state.currentUserId = u.id;
     authError='';
     renderShell();
-    return;
   }
   if(e.target.id==='formSignup'){
     const fd = new FormData(e.target);
@@ -1213,11 +1340,6 @@ document.getElementById('view-auth').addEventListener('submit', e=>{
     const planExam = fd.get('planExam');
     const planDate = fd.get('planDate') || '';
     const password = fd.get('password');
-    if(!name || !email || !password){
-      authError = 'Please fill in all required fields.';
-      renderAuth();
-      return;
-    }
     if(findUserByEmail(email)){
       authError = 'An account with that email already exists — try logging in.';
       renderAuth();
@@ -1228,9 +1350,9 @@ document.getElementById('view-auth').addEventListener('submit', e=>{
       renderAuth();
       return;
     }
-    const created = makeUser({name, email, password, plans:[{exam:planExam, date:planDate}]});
-    state.users.push(created);
-    state.currentUserId = created.id;
+    const u = makeUser({name, email, password, plans:[{exam:planExam, date:planDate}]});
+    state.users.push(u);
+    state.currentUserId = u.id;
     authError='';
     renderShell();
   }
@@ -1261,7 +1383,6 @@ document.getElementById('view-profile').addEventListener('submit', e=>{
     e.preventDefault();
     const fd = new FormData(e.target);
     u.name = fd.get('name').trim() || u.name;
-    saveState();
     renderProfile();
     renderProfileChip();
     document.getElementById('detailsSaveMsg').textContent = 'Saved.';
@@ -1277,7 +1398,6 @@ document.getElementById('view-profile').addEventListener('submit', e=>{
       return;
     }
     u.password = newPassword;
-    saveState();
     errBox.style.display='none';
     e.target.reset();
     document.getElementById('passwordSaveMsg').textContent = 'Password updated.';
@@ -1469,6 +1589,24 @@ document.getElementById('view-fitness').addEventListener('keydown', e=>{
   }
 });
 
+/* ============================= ELIGIBILITY EVENTS ============================= */
+document.getElementById('view-eligibility').addEventListener('change', e=>{
+  if(e.target.id==='eligDob'){
+    cu().dob = e.target.value;
+    renderEligibility();
+  }
+  if(e.target.id==='eligRef'){
+    cu().eligibilityRef = e.target.value;
+    renderEligibility();
+  }
+});
+document.getElementById('view-eligibility').addEventListener('click', e=>{
+  if(e.target.id==='btnEligToday'){
+    cu().eligibilityRef = todayISO();
+    renderEligibility();
+  }
+});
+
 /* ============================= PLANNER EVENTS ============================= */
 document.getElementById('view-planner').addEventListener('click', e=>{
   if(e.target.id==='btnAddDay'){
@@ -1574,7 +1712,7 @@ document.getElementById('btnExport').addEventListener('click', ()=>{
   const u = cu();
   if(!u) return;
   const data = JSON.stringify({
-    name: u.name, plans: u.plans,
+    name: u.name, plans: u.plans, dob: u.dob, eligibilityRef: u.eligibilityRef,
     subjects: u.subjects, fitness: u.fitness, days: u.days
   }, null, 2);
   const blob = new Blob([data], {type:'application/json'});
@@ -1601,6 +1739,8 @@ document.getElementById('fileImport').addEventListener('change', e=>{
         if(Array.isArray(parsed.plans) && parsed.plans.length){
           u.plans = parsed.plans.map(p=>({id:p.id||uid(), exam:p.exam, date:p.date||''}));
         }
+        if(typeof parsed.dob === 'string') u.dob = parsed.dob;
+        if(typeof parsed.eligibilityRef === 'string') u.eligibilityRef = parsed.eligibilityRef;
         u.ui = {openSubjects:{}, openFitness:{}, addingTopicFor:null};
         renderAll();
         alert('Data imported successfully.');
