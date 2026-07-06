@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SANKALP — Mission Prep Console</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8IS0tIGJhY2tpbmcgZGlzYyBzbyB0aGUgbWFyayByZWFkcyBvbiBhbnkgdGFiL2JhY2tncm91bmQgY29sb3VyIC0tPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSIjMTIxNjEzIi8+CgogIDwhLS0gcmV0aWNsZSByaW5ncyAtLT4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMjI3IiBzdHJva2Utd2lkdGg9IjMuMiIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMzIiBmaWxsPSJub25lIiBzdHJva2U9IiM0YjVkM2EiIHN0cm9rZS13aWR0aD0iMiIvPgoKICA8IS0tIGNyb3NzaGFpciB0aWNrcyAtLT4KICA8ZyBzdHJva2U9IiNjOWEyMjciIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgogICAgPGxpbmUgeDE9IjUwIiB5MT0iMiIgIHgyPSI1MCIgeTI9IjkiLz4KICAgIDxsaW5lIHgxPSI1MCIgeTE9IjkxIiB4Mj0iNTAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjIiICB5MT0iNTAiIHgyPSI5IiAgeTI9IjUwIi8+CiAgICA8bGluZSB4MT0iOTEiIHkxPSI1MCIgeDI9Ijk4IiB5Mj0iNTAiLz4KICA8L2c+CgogIDwhLS0gcmlzaW5nIGFycm93OiByZXNvbHZlIC8gZm9yd2FyZCBtb21lbnR1bSAtLT4KICA8cGF0aCBkPSJNNTAgNDAgTDY0IDYwIEw1NiA2MCBMNTYgNzQgTDQ0IDc0IEw0NCA2MCBMMzYgNjAgWiIgZmlsbD0iI2M5YTIyNyIvPgoKICA8IS0tIGdvYWwgc3RhciAtLT4KICA8cG9seWdvbiBwb2ludHM9IjUwLjAwLDE0LjUwIDUxLjU5LDE4LjgyIDU2LjE4LDE4Ljk5IDUyLjU3LDIxLjgzIDUzLjgyLDI2LjI2IDUwLjAwLDIzLjcwIDQ2LjE4LDI2LjI2IDQ3LjQzLDIxLjgzIDQzLjgyLDE4Ljk5IDQ4LjQxLDE4LjgyIiBmaWxsPSIjYzlhMjI3Ii8+Cjwvc3ZnPgo=">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8IS0tIGJhY2tpbmcgZGlzYyBzbyB0aGUgbWFyayByZWFkcyBvbiBhbnkgdGFiL2JhY2tncm91bmQgY29sb3VyIC0tPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQ4IiBmaWxsPSIjMTIxNjEzIi8+CgogIDwhLS0gcmV0aWNsZSByaW5ncyAtLT4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhMjI3IiBzdHJva2Utd2lkdGg9IjMuMiIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMzIiBmaWxsPSJub25lIiBzdHJva2U9IiM0YjVkM2EiIHN0cm9rZS13aWR0aD0iMiIvPgoKICA8IS0tIGNyb3NzaGFpciB0aWNrcyAtLT4KICA8ZyBzdHJva2U9IiNjOWEyMjciIHN0cm9rZS13aWR0aD0iMy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiPgogICAgPGxpbmUgeDE9IjUwIiB5MT0iMiIgIHgyPSI1MCIgeTI9IjkiLz4KICAgIDxsaW5lIHgxPSI1MCIgeTE9IjkxIiB4Mj0iNTAiIHkyPSI5OCIvPgogICAgPGxpbmUgeDE9IjIiICB5MT0iNTAiIHgyPSI5IiAgeTI9IjUwIi8+CiAgICA8bGluZSB4MT0iOTEiIHkxPSI1MCIgeDI9Ijk4IiB5Mj0iNTAiLz4KICA8L2c+CgogIDwhLS0gcmlzaW5nIGFycm93OiByZXNvbHZlIC8gZm9yd2FyZCBtb21lbnR1bSAtLT4KICA8cGF0aCBkPSJNNTAgNDAgTDY0IDYwIEw1NiA2MCBMNTYgNzQgTDQ0IDc0IEw0NCA2MCBMMzYgNjAgWiIgZmlsbD0iI2M5YTIyNyIvPgoKICA8IS0tIGdvYWwgc3RhciAtLT4KICA8cG9seWdvbiBwb2ludHM9IjUwLjAwLDE0LjUwIDUxLjU5LDE4LjgyIDU2LjE4LDE4Ljk5IDUyLjU3LDIxLjgzIDUzLjgyLDI2LjI2IDUwLjAwLDIzLjcwIDQ2LjE4LDI2LjI2IDQ3LjQzLDIxLjgzIDQzLjgyLDE4Ljk5IDQ4LjQxLDE4LjgyIiBmaWxsPSIjYzlhMjI3Ii8+Cjwvc3ZnPgo=">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -50,13 +53,9 @@
   .top-inner{max-width:1180px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:16px;}
   .brand{display:flex;align-items:center;gap:12px;}
   .brand-mark{
-    width:38px;height:38px;border:2px solid var(--brass);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;position:relative;flex:none;
+    width:38px;height:38px;display:flex;align-items:center;justify-content:center;flex:none;
   }
-  .brand-mark::before{content:'';position:absolute;width:6px;height:6px;background:var(--brass);border-radius:50%;}
-  .brand-mark::after{
-    content:'';position:absolute;inset:6px;border:1px solid var(--brass-dim);border-radius:50%;
-  }
+  .brand-mark svg{width:100%;height:100%;}
   .brand-text .kicker{font-size:10px;letter-spacing:0.28em;color:var(--text-faint);font-family:'JetBrains Mono',monospace;}
   .brand-text h1{font-size:26px;margin:0;font-weight:600;letter-spacing:0.06em;}
   .brand-text h1 span{color:var(--brass);}
@@ -244,6 +243,9 @@
   footer.foot{text-align:center;color:var(--text-faint);font-size:11px;padding:30px 0 0;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;}
   .foot-credit{margin-top:8px;font-size:10.5px;color:var(--text-faint);letter-spacing:0.06em;}
   .foot-credit span{color:var(--brass-dim);}
+  .foot-contact{margin-top:4px;font-size:10.5px;color:var(--text-faint);letter-spacing:0.06em;}
+  .foot-contact a{color:var(--brass-dim);text-decoration:none;}
+  .foot-contact a:hover{color:var(--brass);text-decoration:underline;}
 
   /* ===== Profile chip (header) ===== */
   .profile-chip{
@@ -259,12 +261,8 @@
 
   /* ===== Auth screen ===== */
   .auth-wrap{max-width:420px;margin:60px auto;display:flex;flex-direction:column;align-items:center;gap:22px;}
-  .auth-badge{
-    width:56px;height:56px;border:2px solid var(--brass);border-radius:50%;position:relative;
-  }
-  .auth-badge::before{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;background:var(--brass);
-    border-radius:50%;transform:translate(-50%,-50%);}
-  .auth-badge::after{content:'';position:absolute;inset:9px;border:1px solid var(--brass-dim);border-radius:50%;}
+  .auth-badge{width:64px;height:64px;}
+  .auth-badge svg{width:100%;height:100%;}
   .auth-title-block{display:flex;flex-direction:column;align-items:center;gap:8px;}
   .auth-title{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;text-align:center;line-height:1.2;}
   .auth-sub{font-size:12.5px;color:var(--text-faint);text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;line-height:1.5;}
@@ -376,7 +374,19 @@
 <header class="top">
   <div class="top-inner">
     <div class="brand">
-      <div class="brand-mark"></div>
+      <div class="brand-mark">
+        <svg viewBox="0 0 100 100" width="38" height="38">
+          <circle cx="50" cy="50" r="48" fill="#121613"/>
+          <circle cx="50" cy="50" r="43" fill="none" stroke="#c9a227" stroke-width="3.2"/>
+          <circle cx="50" cy="50" r="33" fill="none" stroke="#4b5d3a" stroke-width="2"/>
+          <g stroke="#c9a227" stroke-width="3.2" stroke-linecap="round">
+            <line x1="50" y1="2" x2="50" y2="9"/><line x1="50" y1="91" x2="50" y2="98"/>
+            <line x1="2" y1="50" x2="9" y2="50"/><line x1="91" y1="50" x2="98" y2="50"/>
+          </g>
+          <path d="M50 40 L64 60 L56 60 L56 74 L44 74 L44 60 L36 60 Z" fill="#c9a227"/>
+          <polygon points="50.00,14.50 51.59,18.82 56.18,18.99 52.57,21.83 53.82,26.26 50.00,23.70 46.18,26.26 47.43,21.83 43.82,18.99 48.41,18.82" fill="#c9a227"/>
+        </svg>
+      </div>
       <div class="brand-text">
         <div class="kicker">MISSION PREP CONSOLE</div>
         <h1>SANKALP<span>.</span></h1>
@@ -415,6 +425,7 @@
   <footer class="foot">
     DISCIPLINE · CONSISTENCY · SANKALP
     <div class="foot-credit">© <span id="footYear"></span> Sankalp. Web made by KARTIK.X.7</div>
+    <div class="foot-contact">Contact: <a href="mailto:admin@sanklap24x7.online">admin@sanklap24x7.online</a></div>
   </footer>
 </div>
 
@@ -425,74 +436,12 @@ const PALETTE = ['#c9a227','#6e8b3d','#8a6a4b','#5c7a8a','#b5453b','#9c8c5c','#4
 function uid(){ return Math.random().toString(36).slice(2,10); }
 
 function seedUserData(){
-  const subjects = [
-    { id: uid(), name: 'Mathematics', topics: [
-      {id:uid(), name:'Number System & Algebra', done:true},
-      {id:uid(), name:'Trigonometry', done:true},
-      {id:uid(), name:'Geometry & Mensuration', done:false},
-      {id:uid(), name:'Statistics & Probability', done:false},
-      {id:uid(), name:'Basic Calculus', done:false},
-    ]},
-    { id: uid(), name:'General Science', topics: [
-      {id:uid(), name:'Physics Fundamentals', done:true},
-      {id:uid(), name:'Chemistry Fundamentals', done:false},
-      {id:uid(), name:'Biology & Human Body', done:false},
-    ]},
-    { id: uid(), name:'History & Geography', topics: [
-      {id:uid(), name:'Ancient & Medieval India', done:false},
-      {id:uid(), name:'Modern India & Freedom Struggle', done:false},
-      {id:uid(), name:'Indian Geography', done:true},
-      {id:uid(), name:'World Geography', done:false},
-    ]},
-    { id: uid(), name:'Current Affairs', topics: [
-      {id:uid(), name:'National Affairs', done:false},
-      {id:uid(), name:'International Affairs', done:false},
-      {id:uid(), name:'Defence & Security News', done:false},
-    ]},
-    { id: uid(), name:'English', topics: [
-      {id:uid(), name:'Grammar & Usage', done:true},
-      {id:uid(), name:'Comprehension', done:false},
-      {id:uid(), name:'Vocabulary: Synonyms/Antonyms', done:false},
-    ]},
-    { id: uid(), name:'Reasoning & Defence GK', topics: [
-      {id:uid(), name:'Logical & Verbal Reasoning', done:false},
-      {id:uid(), name:'Static GK', done:false},
-      {id:uid(), name:'Ranks, Ops & Awards', done:false},
-    ]},
-  ];
-
-  const fitness = [
-    { id: uid(), name:'Cardio & Endurance', topics: [
-      {id:uid(), name:'1.6km Run (under 6:30)', done:true},
-      {id:uid(), name:'2.4km Run (under 10:30)', done:false},
-      {id:uid(), name:'Skipping — 10 min', done:false},
-    ]},
-    { id: uid(), name:'Strength', topics: [
-      {id:uid(), name:'Push-ups (3x20)', done:true},
-      {id:uid(), name:'Sit-ups (3x20)', done:false},
-      {id:uid(), name:'Pull-ups (3x8)', done:false},
-      {id:uid(), name:'Squats (3x25)', done:false},
-    ]},
-    { id: uid(), name:'Mobility & Extras', topics: [
-      {id:uid(), name:'Swimming — 500m', done:false},
-      {id:uid(), name:'Rope climbing', done:false},
-      {id:uid(), name:'Stretching & recovery', done:true},
-    ]},
-  ];
-
-  const s = subjects;
-  const days = [
-    { id: uid(), date: todayISO(), slots:[
-      {id:uid(), time:'07:00', subjectId:s[0].id, topicId:s[0].topics[0].id, duration:90, note:'', done:true},
-      {id:uid(), time:'17:00', subjectId:s[3].id, topicId:s[3].topics[0].id, duration:45, note:'Newspaper + notes', done:false},
-    ]},
-    { id: uid(), date: addDaysISO(todayISO(),1), slots:[
-      {id:uid(), time:'07:00', subjectId:s[1].id, topicId:s[1].topics[0].id, duration:90, note:'', done:false},
-      {id:uid(), time:'18:00', subjectId:s[4].id, topicId:s[4].topics[0].id, duration:60, note:'', done:false},
-    ]},
-  ];
-
-  return { subjects, fitness, days, ui:{ openSubjects:{}, openFitness:{}, addingTopicFor:null } };
+  return {
+    subjects: [],
+    fitness: [],
+    days: [],
+    ui:{ openSubjects:{}, openFitness:{}, addingTopicFor:null }
+  };
 }
 
 /* ============================= ACCOUNTS / AUTH ============================= */
@@ -1073,7 +1022,19 @@ function renderAuth(){
   const isLogin = authMode === 'login';
   document.getElementById('view-auth').innerHTML = `
     <div class="auth-wrap">
-      <div class="auth-badge"></div>
+      <div class="auth-badge">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" fill="#121613"/>
+          <circle cx="50" cy="50" r="43" fill="none" stroke="#c9a227" stroke-width="3.2"/>
+          <circle cx="50" cy="50" r="33" fill="none" stroke="#4b5d3a" stroke-width="2"/>
+          <g stroke="#c9a227" stroke-width="3.2" stroke-linecap="round">
+            <line x1="50" y1="2" x2="50" y2="9"/><line x1="50" y1="91" x2="50" y2="98"/>
+            <line x1="2" y1="50" x2="9" y2="50"/><line x1="91" y1="50" x2="98" y2="50"/>
+          </g>
+          <path d="M50 40 L64 60 L56 60 L56 74 L44 74 L44 60 L36 60 Z" fill="#c9a227"/>
+          <polygon points="50.00,14.50 51.59,18.82 56.18,18.99 52.57,21.83 53.82,26.26 50.00,23.70 46.18,26.26 47.43,21.83 43.82,18.99 48.41,18.82" fill="#c9a227"/>
+        </svg>
+      </div>
       <div class="auth-title-block">
         <div class="auth-title">Sankalp</div>
         <div class="auth-sub">MISSION PREP CONSOLE — IDENTIFICATION REQUIRED</div>
